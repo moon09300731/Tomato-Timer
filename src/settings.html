@@ -5,29 +5,42 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>设置</title>
     <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
         const { ipcRenderer } = require('electron');
         
         let workMinutes = 25;
         let breakMinutes = 5;
         let extensionMinutes = 5;
+        let ratioChart = null;
         
         function loadSettings() {
-            workMinutes = localStorage.getItem('workMinutes') || 25;
-            breakMinutes = localStorage.getItem('breakMinutes') || 5;
-            extensionMinutes = localStorage.getItem('extensionMinutes') || 5;
+            workMinutes = parseInt(localStorage.getItem('workMinutes')) || 25;
+            breakMinutes = parseInt(localStorage.getItem('breakMinutes')) || 5;
+            extensionMinutes = parseInt(localStorage.getItem('extensionMinutes')) || 5;
+            
             document.getElementById('work-duration').value = workMinutes;
             document.getElementById('break-duration').value = breakMinutes;
             document.getElementById('extension-duration').value = extensionMinutes;
+            document.getElementById('work-slider').value = workMinutes;
+            document.getElementById('break-slider').value = breakMinutes;
+            document.getElementById('extension-slider').value = extensionMinutes;
+            document.getElementById('work-value').textContent = `${workMinutes} 分钟`;
+            document.getElementById('break-value').textContent = `${breakMinutes} 分钟`;
+            document.getElementById('extension-value').textContent = `${extensionMinutes} 分钟`;
+            
+            updateRatioChart();
         }
         
         function saveSettings() {
-            workMinutes = document.getElementById('work-duration').value;
-            breakMinutes = document.getElementById('break-duration').value;
-            extensionMinutes = document.getElementById('extension-duration').value;
+            workMinutes = parseInt(document.getElementById('work-duration').value);
+            breakMinutes = parseInt(document.getElementById('break-duration').value);
+            extensionMinutes = parseInt(document.getElementById('extension-duration').value);
+            
             localStorage.setItem('workMinutes', workMinutes);
             localStorage.setItem('breakMinutes', breakMinutes);
             localStorage.setItem('extensionMinutes', extensionMinutes);
+            
             ipcRenderer.send('settings-saved');
             ipcRenderer.send('close-settings');
         }
@@ -38,10 +51,188 @@
         
         function updateTheme(isDark) {
             document.body.className = isDark ? 'dark' : 'light';
+            updateChartColors();
+        }
+        
+        function updateChartColors() {
+            if (!ratioChart) return;
+            
+            const colors = getChartColors();
+            
+            ratioChart.data.datasets[0].backgroundColor = [colors.primaryColor, colors.secondaryColor];
+            ratioChart.data.datasets[0].borderColor = colors.chartGridColor;
+            ratioChart.data.datasets[0].borderWidth = 2;
+            
+            ratioChart.options.plugins.legend.labels.color = colors.textPrimary;
+            
+            if (ratioChart.options.plugins.tooltip) {
+                ratioChart.options.plugins.tooltip.backgroundColor = colors.tooltipBackground;
+                ratioChart.options.plugins.tooltip.titleColor = colors.tooltipText;
+                ratioChart.options.plugins.tooltip.bodyColor = colors.tooltipText;
+                ratioChart.options.plugins.tooltip.borderColor = colors.tooltipBorder;
+            }
+            
+            ratioChart.update();
+        }
+        
+        function getCssVariable(name) {
+            return getComputedStyle(document.body).getPropertyValue(name).trim();
+        }
+        
+        function getChartColors() {
+            const isDark = document.body.classList.contains('dark');
+            
+            const getColor = (name, lightValue, darkValue) => {
+                const cssValue = getCssVariable(name);
+                if (cssValue && cssValue !== '') {
+                    return cssValue;
+                }
+                return isDark ? darkValue : lightValue;
+            };
+            
+            return {
+                primaryColor: getColor('--primary-color', '#ff6b6b', '#ff8787'),
+                secondaryColor: getColor('--secondary-color', '#51cf66', '#69db7c'),
+                textPrimary: getColor('--text-primary', '#1d1d1f', '#ffffff'),
+                chartGridColor: getColor('--chart-grid-color', 'rgba(0, 0, 0, 0.1)', 'rgba(255, 255, 255, 0.15)'),
+                tooltipBackground: getColor('--background-primary', '#ffffff', '#2e2e2e'),
+                tooltipText: getColor('--text-primary', '#1d1d1f', '#ffffff'),
+                tooltipBorder: getColor('--text-secondary', '#8e8e93', '#e5e5e7')
+            };
+        }
+        
+        function updateRatioChart() {
+            if (!ratioChart) return;
+            
+            const total = workMinutes + breakMinutes;
+            const workPercentage = Math.round((workMinutes / total) * 100);
+            const breakPercentage = Math.round((breakMinutes / total) * 100);
+            
+            ratioChart.data.datasets[0].data = [workMinutes, breakMinutes];
+            ratioChart.update();
+            
+            document.getElementById('work-percentage').textContent = `${workPercentage}%`;
+            document.getElementById('break-percentage').textContent = `${breakPercentage}%`;
+            document.getElementById('ratio-summary').textContent = `工作:休息 = ${workMinutes}:${breakMinutes}`;
+        }
+        
+        function initializeRatioChart() {
+            const ctx = document.getElementById('ratio-chart').getContext('2d');
+            const colors = getChartColors();
+            const total = workMinutes + breakMinutes;
+            const workPercentage = Math.round((workMinutes / total) * 100);
+            const breakPercentage = Math.round((breakMinutes / total) * 100);
+            
+            ratioChart = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['工作时间', '休息时间'],
+                    datasets: [{
+                        data: [workMinutes, breakMinutes],
+                        backgroundColor: [colors.primaryColor, colors.secondaryColor],
+                        borderColor: colors.chartGridColor,
+                        borderWidth: 2,
+                        borderRadius: 8,
+                        spacing: 4,
+                        hoverOffset: 12
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    cutout: '70%',
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                color: colors.textPrimary,
+                                padding: 20,
+                                font: {
+                                    size: 14
+                                },
+                                usePointStyle: true,
+                                pointStyle: 'circle'
+                            }
+                        },
+                        tooltip: {
+                            backgroundColor: colors.tooltipBackground,
+                            titleColor: colors.tooltipText,
+                            bodyColor: colors.tooltipText,
+                            borderColor: colors.tooltipBorder,
+                            borderWidth: 1,
+                            cornerRadius: 6,
+                            callbacks: {
+                                label: function(context) {
+                                    const label = context.label || '';
+                                    const value = context.raw || 0;
+                                    const percentage = context.parsed || 0;
+                                    const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                                    const percent = Math.round((value / total) * 100);
+                                    return `${label}: ${value}分钟 (${percent}%)`;
+                                }
+                            }
+                        }
+                    },
+                    animation: {
+                        animateScale: true,
+                        animateRotate: true,
+                        duration: 1000,
+                        easing: 'easeOutQuart'
+                    }
+                }
+            });
+            
+            document.getElementById('work-percentage').textContent = `${workPercentage}%`;
+            document.getElementById('break-percentage').textContent = `${breakPercentage}%`;
+            document.getElementById('ratio-summary').textContent = `工作:休息 = ${workMinutes}:${breakMinutes}`;
+        }
+        
+        function updateFromSlider(sliderId, valueId, inputId, type) {
+            const value = parseInt(document.getElementById(sliderId).value);
+            document.getElementById(valueId).textContent = `${value} 分钟`;
+            document.getElementById(inputId).value = value;
+            
+            if (type === 'work') {
+                workMinutes = value;
+            } else if (type === 'break') {
+                breakMinutes = value;
+            } else if (type === 'extension') {
+                extensionMinutes = value;
+            }
+            
+            if (type === 'work' || type === 'break') {
+                updateRatioChart();
+            }
+        }
+        
+        function updateFromInput(inputId, sliderId, valueId, type) {
+            const value = parseInt(document.getElementById(inputId).value);
+            if (isNaN(value) || value < 1) return;
+            
+            const slider = document.getElementById(sliderId);
+            if (value > parseInt(slider.max)) {
+                slider.max = value;
+            }
+            slider.value = value;
+            document.getElementById(valueId).textContent = `${value} 分钟`;
+            
+            if (type === 'work') {
+                workMinutes = value;
+            } else if (type === 'break') {
+                breakMinutes = value;
+            } else if (type === 'extension') {
+                extensionMinutes = value;
+            }
+            
+            if (type === 'work' || type === 'break') {
+                updateRatioChart();
+            }
         }
         
         document.addEventListener('DOMContentLoaded', () => {
             loadSettings();
+            initializeRatioChart();
+            
             document.getElementById('save-btn').addEventListener('click', saveSettings);
             document.getElementById('cancel-btn').addEventListener('click', cancelSettings);
             
@@ -50,6 +241,30 @@
             
             ipcRenderer.on('theme-changed', (event, isDark) => {
                 updateTheme(isDark);
+            });
+            
+            document.getElementById('work-slider').addEventListener('input', (e) => {
+                updateFromSlider('work-slider', 'work-value', 'work-duration', 'work');
+            });
+            
+            document.getElementById('break-slider').addEventListener('input', (e) => {
+                updateFromSlider('break-slider', 'break-value', 'break-duration', 'break');
+            });
+            
+            document.getElementById('extension-slider').addEventListener('input', (e) => {
+                updateFromSlider('extension-slider', 'extension-value', 'extension-duration', 'extension');
+            });
+            
+            document.getElementById('work-duration').addEventListener('change', (e) => {
+                updateFromInput('work-duration', 'work-slider', 'work-value', 'work');
+            });
+            
+            document.getElementById('break-duration').addEventListener('change', (e) => {
+                updateFromInput('break-duration', 'break-slider', 'break-value', 'break');
+            });
+            
+            document.getElementById('extension-duration').addEventListener('change', (e) => {
+                updateFromInput('extension-duration', 'extension-slider', 'extension-value', 'extension');
             });
         });
     </script>
@@ -60,18 +275,18 @@
             padding: 20px;
             display: flex;
             flex-direction: column;
-            gap: 16px;
+            gap: 20px;
         }
         
         .settings-header {
+            text-align: center;
             margin-bottom: 10px;
         }
         
         .settings-header h2 {
-            font-size: 20px;
+            font-size: 24px;
             font-weight: 600;
             color: var(--text-primary);
-            text-align: center;
             margin: 0;
         }
         
@@ -79,24 +294,140 @@
             flex: 1;
             display: flex;
             flex-direction: column;
+            gap: 24px;
+        }
+        
+        .ratio-visualization {
+            background-color: var(--background-primary);
+            border-radius: 16px;
+            padding: 20px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
             gap: 16px;
         }
         
-        .setting-item {
+        .ratio-chart-container {
+            width: 100%;
+            height: 200px;
+            position: relative;
+        }
+        
+        .ratio-stats {
+            display: flex;
+            justify-content: space-around;
+            width: 100%;
+            text-align: center;
+        }
+        
+        .ratio-stat {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+        
+        .ratio-value {
+            font-size: 24px;
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+        
+        .ratio-label {
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+        
+        .break-ratio .ratio-value {
+            color: var(--secondary-color);
+        }
+        
+        .ratio-summary {
+            font-size: 16px;
+            color: var(--text-primary);
+            text-align: center;
+            margin-top: 8px;
+        }
+        
+        .slider-controls {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+        
+        .slider-group {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        
+        .slider-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 12px 0;
-            border-bottom: 1px solid var(--text-secondary);
         }
         
-        .setting-label {
+        .slider-label {
             font-size: 16px;
+            font-weight: 500;
             color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
         
-        .setting-input {
-            width: 80px;
+        .slider-label-icon {
+            font-size: 18px;
+        }
+        
+        .slider-value {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+        
+        .break-slider .slider-value {
+            color: var(--secondary-color);
+        }
+        
+        .slider-container {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .slider-input {
+            flex: 1;
+            -webkit-appearance: none;
+            height: 8px;
+            border-radius: 4px;
+            background: linear-gradient(to right, var(--text-secondary) 0%, var(--text-secondary) 100%);
+            outline: none;
+        }
+        
+        .slider-input::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background-color: var(--primary-color);
+            cursor: pointer;
+            border: 3px solid var(--background-primary);
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+            transition: all 0.2s ease;
+        }
+        
+        .slider-input::-webkit-slider-thumb:hover {
+            transform: scale(1.1);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+        
+        .break-slider .slider-input::-webkit-slider-thumb {
+            background-color: var(--secondary-color);
+        }
+        
+        .slider-number-input {
+            width: 70px;
             padding: 8px 12px;
             border-radius: 8px;
             border: 2px solid var(--text-secondary);
@@ -104,10 +435,11 @@
             color: var(--text-primary);
             text-align: center;
             font-size: 16px;
+            font-weight: 500;
             transition: border-color 0.3s ease;
         }
         
-        .setting-input:focus {
+        .slider-number-input:focus {
             outline: none;
             border-color: var(--primary-color);
         }
@@ -115,22 +447,23 @@
         .settings-footer {
             display: flex;
             justify-content: flex-end;
-            gap: 12px;
+            gap: 16px;
             margin-top: 10px;
         }
         
         .settings-btn {
-            padding: 10px 24px;
-            border-radius: 10px;
+            padding: 12px 28px;
+            border-radius: 12px;
             border: none;
             font-size: 16px;
-            font-weight: 500;
+            font-weight: 600;
             cursor: pointer;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
         
         .settings-btn:hover {
             transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
         }
         
         .settings-btn:active {
@@ -144,7 +477,7 @@
         }
         
         .save-btn:hover {
-            box-shadow: 0 6px 16px rgba(255, 107, 107, 0.4);
+            box-shadow: 0 8px 20px rgba(255, 107, 107, 0.4);
         }
         
         .cancel-btn {
@@ -157,30 +490,99 @@
             border-color: var(--primary-color);
             color: var(--primary-color);
         }
+        
+        @media (max-width: 480px) {
+            .settings-container {
+                padding: 16px;
+                gap: 16px;
+            }
+                       
+ .ratio-chart-container {
+                height: 180px;
+            }
+            
+            .ratio-value {
+                font-size: 20px;
+            }
+            
+            .settings-btn {
+                padding: 10px 20px;
+                font-size: 14px;
+            }
+        }
     </style>
 </head>
 <body class="light">
     <div class="settings-container">
         <div class="settings-header">
-            <h2>番茄钟设置</h2>
+            <h2>🍅 番茄钟设置</h2>
         </div>
         <div class="settings-content">
-            <div class="setting-item">
-                <span class="setting-label">工作时间（分钟）</span>
-                <input type="number" id="work-duration" class="setting-input" min="1" max="60" value="25">
+            <div class="ratio-visualization">
+                <h3>工作与休息时间比例</h3>
+                <div class="ratio-chart-container">
+                    <canvas id="ratio-chart"></canvas>
+                </div>
+                <div class="ratio-stats">
+                    <div class="ratio-stat">
+                        <div class="ratio-value" id="work-percentage">63%</div>
+                        <div class="ratio-label">工作时间</div>
+                    </div>
+                    <div class="ratio-stat break-ratio">
+                        <div class="ratio-value" id="break-percentage">37%</div>
+                        <div class="ratio-label">休息时间</div>
+                    </div>
+                </div>
+                <div class="ratio-summary" id="ratio-summary">工作:休息 = 25:5</div>
             </div>
-            <div class="setting-item">
-                <span class="setting-label">休息时间（分钟）</span>
-                <input type="number" id="break-duration" class="setting-input" min="1" max="60" value="5">
-            </div>
-            <div class="setting-item">
-                <span class="setting-label">延长时间（分钟）</span>
-                <input type="number" id="extension-duration" class="setting-input" min="1" max="30" value="5">
+            
+            <div class="slider-controls">
+                <div class="slider-group">
+                    <div class="slider-header">
+                        <div class="slider-label">
+                            <span class="slider-label-icon">⏱️</span>
+                            <span>工作时间</span>
+                        </div>
+                        <div class="slider-value" id="work-value">25 分钟</div>
+                    </div>
+                    <div class="slider-container">
+                        <input type="range" id="work-slider" class="slider-input" min="1" max="60" value="25">
+                        <input type="number" id="work-duration" class="slider-number-input" min="1" max="60" value="25">
+                    </div>
+                </div>
+                
+                <div class="slider-group break-slider">
+                    <div class="slider-header">
+                        <div class="slider-label">
+                            <span class="slider-label-icon">☕</span>
+                            <span>休息时间</span>
+                        </div>
+                        <div class="slider-value" id="break-value">5 分钟</div>
+                    </div>
+                    <div class="slider-container">
+                        <input type="range" id="break-slider" class="slider-input" min="1" max="60" value="5">
+                        <input type="number" id="break-duration" class="slider-number-input" min="1" max="60" value="5">
+                    </div>
+                </div>
+                
+                <div class="slider-group">
+                    <div class="slider-header">
+                        <div class="slider-label">
+                            <span class="slider-label-icon">⏳</span>
+                            <span>延长时间</span>
+                        </div>
+                        <div class="slider-value" id="extension-value">5 分钟</div>
+                    </div>
+                    <div class="slider-container">
+                        <input type="range" id="extension-slider" class="slider-input" min="1" max="30" value="5">
+                        <input type="number" id="extension-duration" class="slider-number-input" min="1" max="30" value="5">
+                    </div>
+                </div>
             </div>
         </div>
         <div class="settings-footer">
             <button id="cancel-btn" class="settings-btn cancel-btn">取消</button>
-            <button id="save-btn" class="settings-btn save-btn">保存</button>
+            <button id="save-btn" class="settings-btn save-btn">保存设置</button>
         </div>
     </div>
 </body>

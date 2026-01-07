@@ -29,12 +29,31 @@
             return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
         }
         
+        function getCurrentSessionDuration() {
+            return isWorkSession ? workDuration : breakDuration;
+        }
+        
+        function updateProgressRing() {
+            const progressCircle = document.querySelector('.progress-ring-circle');
+            if (!progressCircle) return;
+            
+            const totalDuration = getCurrentSessionDuration();
+            const progress = 1 - (timeLeft / totalDuration);
+            const circumference = 2 * Math.PI * 88; // 半径88
+            const offset = circumference * (1 - progress);
+            
+            progressCircle.style.strokeDashoffset = offset;
+        }
+        
         function updateDisplay() {
             const timerElement = document.getElementById('timer');
             const sessionTypeElement = document.getElementById('session-type');
             
             // 更新计时器显示
             timerElement.textContent = formatTime(timeLeft);
+            
+            // 更新进度环
+            updateProgressRing();
             
             // 检测计时器数字变化，添加动画
             if (previousTimeLeft !== timeLeft) {
@@ -197,6 +216,7 @@
             }
             
             timeChart.update();
+            updateDashboard();
         }
 
         function updateTheme(isDark) {
@@ -567,6 +587,124 @@
             timeChart.data.datasets[1].data = breakData;
             
             timeChart.update();
+            updateDashboard();
+        }
+
+        function updateMetrics() {
+            const records = getTimeRecords(currentPeriod);
+            
+            // 计算总焦点时间（工作时间）
+            const totalFocusTime = records.reduce((sum, r) => sum + r.work, 0);
+            document.getElementById('focus-time').textContent = totalFocusTime;
+            document.getElementById('focus-time-subtitle').textContent = '分钟';
+            
+            // 计算完成会话数（工作+休息会话）
+            const totalSessions = records.reduce((sum, r) => sum + (r.work > 0 ? 1 : 0) + (r.break > 0 ? 1 : 0), 0);
+            document.getElementById('sessions-completed').textContent = totalSessions;
+            document.getElementById('sessions-subtitle').textContent = '个会话';
+            
+            // 计算效率（工作时间占总时间的百分比）
+            const totalTime = records.reduce((sum, r) => sum + r.work + r.break, 0);
+            const efficiency = totalTime > 0 ? Math.round((totalFocusTime / totalTime) * 100) : 0;
+            document.getElementById('efficiency').textContent = `${efficiency}%`;
+            document.getElementById('efficiency-subtitle').textContent = `工作/休息比 ${totalFocusTime}:${totalTime - totalFocusTime}`;
+            
+            // 计算连续天数
+            const streak = calculateStreak();
+            document.getElementById('streak').textContent = streak;
+            document.getElementById('streak-subtitle').textContent = streak === 1 ? '天' : '天';
+        }
+        
+        function calculateStreak() {
+            const records = JSON.parse(localStorage.getItem('tomatoRecords') || '{}');
+            const dates = Object.keys(records).sort();
+            if (dates.length === 0) return 0;
+            
+            let streak = 0;
+            const today = new Date().toISOString().split('T')[0];
+            let currentDate = today;
+            
+            // 检查今天是否有记录
+            if (records[currentDate] && (records[currentDate].work > 0 || records[currentDate].break > 0)) {
+                streak = 1;
+            } else {
+                // 从昨天开始检查
+                const yesterday = new Date();
+                yesterday.setDate(yesterday.getDate() - 1);
+                currentDate = yesterday.toISOString().split('T')[0];
+                if (records[currentDate] && (records[currentDate].work > 0 || records[currentDate].break > 0)) {
+                    streak = 1;
+                }
+            }
+            
+            // 向前检查连续天数
+            let checkDate = new Date(currentDate);
+            while (streak > 0) {
+                checkDate.setDate(checkDate.getDate() - 1);
+                const dateKey = checkDate.toISOString().split('T')[0];
+                if (records[dateKey] && (records[dateKey].work > 0 || records[dateKey].break > 0)) {
+                    streak++;
+                } else {
+                    break;
+                }
+            }
+            
+            return streak;
+        }
+        
+        function updateRecordsList() {
+            const recordsList = document.getElementById('records-list');
+            const records = JSON.parse(localStorage.getItem('tomatoRecords') || '{}');
+            const sortedDates = Object.keys(records).sort().reverse().slice(0, 10); // 最近10条记录
+            
+            if (sortedDates.length === 0) {
+                recordsList.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-icon">📊</div>
+                        <p>暂无记录</p>
+                        <p class="empty-subtitle">开始使用番茄钟后，记录将显示在这里</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            let html = '';
+            sortedDates.forEach(date => {
+                const dayRecords = records[date];
+                const workMinutes = dayRecords.work || 0;
+                const breakMinutes = dayRecords.break || 0;
+                
+                const dateObj = new Date(date);
+                const dateStr = dateObj.toLocaleDateString('zh-CN', { 
+                    year: 'numeric', 
+                    month: 'short', 
+                    day: 'numeric',
+                    weekday: 'short'
+                });
+                
+                html += `
+                    <div class="record-item">
+                        <div class="record-date">${dateStr}</div>
+                        <div class="record-stats">
+                            <div class="record-work">
+                                <div class="record-value">${workMinutes}</div>
+                                <div class="record-label">工作</div>
+                            </div>
+                            <div class="record-break">
+                                <div class="record-value">${breakMinutes}</div>
+                                <div class="record-label">休息</div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            recordsList.innerHTML = html;
+        }
+        
+        function updateDashboard() {
+            updateMetrics();
+            updateRecordsList();
         }
 
         // 记录计时器结束时的时间
@@ -620,8 +758,24 @@
         <main>
             <div id="timer-view" class="view active">
                 <div class="timer-display">
-                    <div id="timer" class="timer">25:00</div>
-                    <div id="session-type" class="session-type">工作</div>
+                    <div class="progress-ring-container">
+                        <div class="progress-ring">
+                            <svg width="100%" height="100%" viewBox="0 0 200 200">
+                                <defs>
+                                    <linearGradient id="progress-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                        <stop offset="0%" stop-color="var(--primary-color)" />
+                                        <stop offset="100%" stop-color="var(--secondary-color)" />
+                                    </linearGradient>
+                                </defs>
+                                <circle class="progress-ring-background" cx="100" cy="100" r="88" stroke-width="12" fill="transparent"/>
+                                <circle class="progress-ring-circle" cx="100" cy="100" r="88" stroke-width="12" fill="transparent" stroke-dasharray="553" stroke-dashoffset="553"/>
+                            </svg>
+                        </div>
+                        <div class="timer-content">
+                            <div id="timer" class="timer">25:00</div>
+                            <div id="session-type" class="session-type">工作</div>
+                        </div>
+                    </div>
                 </div>
                 <div class="controls">
                     <button id="start-btn" class="btn primary">开始</button>
@@ -632,14 +786,59 @@
             </div>
             <div id="stats-view" class="view">
                 <div class="stats-container">
-                    <h2>时间统计</h2>
-                    <div class="chart-container">
-                        <canvas id="time-chart"></canvas>
+                    <h2>📊 统计仪表板</h2>
+                    
+                    <div class="metrics-grid">
+                        <div class="metric-card">
+                            <div class="metric-icon">⏱️</div>
+                            <div class="metric-value" id="focus-time">0</div>
+                            <div class="metric-label">焦点时间</div>
+                            <div class="metric-subtitle" id="focus-time-subtitle">分钟</div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-icon">🍅</div>
+                            <div class="metric-value" id="sessions-completed">0</div>
+                            <div class="metric-label">完成会话</div>
+                            <div class="metric-subtitle" id="sessions-subtitle">个</div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-icon">📈</div>
+                            <div class="metric-value" id="efficiency">0%</div>
+                            <div class="metric-label">效率</div>
+                            <div class="metric-subtitle" id="efficiency-subtitle">工作/休息比</div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-icon">🔥</div>
+                            <div class="metric-value" id="streak">0</div>
+                            <div class="metric-label">连续天数</div>
+                            <div class="metric-subtitle" id="streak-subtitle">天</div>
+                        </div>
                     </div>
-                    <div class="time-filters">
-                        <button class="filter-btn active" data-period="day">本日</button>
-                        <button class="filter-btn" data-period="week">本周</button>
-                        <button class="filter-btn" data-period="month">本月</button>
+                    
+                    <div class="chart-section">
+                        <div class="section-header">
+                            <h3>时间趋势</h3>
+                            <div class="time-filters">
+                                <button class="filter-btn active" data-period="day">本日</button>
+                                <button class="filter-btn" data-period="week">本周</button>
+                                <button class="filter-btn" data-period="month">本月</button>
+                            </div>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="time-chart"></canvas>
+                        </div>
+                    </div>
+                    
+                    <div class="records-section">
+                        <h3>📝 最近记录</h3>
+                        <div class="records-list" id="records-list">
+                            <!-- 记录将通过JavaScript动态生成 -->
+                            <div class="empty-state">
+                                <div class="empty-icon">📊</div>
+                                <p>暂无记录</p>
+                                <p class="empty-subtitle">开始使用番茄钟后，记录将显示在这里</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
