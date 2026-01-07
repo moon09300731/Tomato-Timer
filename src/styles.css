@@ -403,8 +403,8 @@ header {
 /* 响应式调整 */
 @media (max-width: 480px) {
     .progress-ring-container {
-        width: 180px;
-        height: 180px;
+        width: 200px;
+        height: 200px;
     }
     .timer-content {
         top: 4%;
@@ -722,8 +722,8 @@ body.dark .icon-btn:hover {
 /* 圆形进度指示器样式 */
 .progress-ring-container {
     position: relative;
-    width: 220px;
-    height: 220px;
+    width: 260px;
+    height: 260px;
     margin: 0 auto 24px;
 }
 
@@ -769,8 +769,8 @@ body.dark .icon-btn:hover {
 /* 响应式调整进度指示器 */
 @media (max-width: 768px) {
     .progress-ring-container {
-        width: 200px;
-        height: 200px;
+        width: 230px;
+        height: 230px;
     }
     .progress-ring-background,
     .progress-ring-circle {
