@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>番茄钟</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        const { ipcRenderer } = require('electron');
+        
+        let workDuration = (localStorage.getItem('workMinutes') || 25) * 60;
+         let breakDuration = (localStorage.getItem('breakMinutes') || 5) * 60;
+         let extensionMinutes = parseInt(localStorage.getItem('extensionMinutes')) || 5;
+         let timerInterval = null;
+         let timeLeft = workDuration;
+         let isRunning = false;
+         let isWorkSession = true;
+         let previousTimeLeft = workDuration;
+         let previousIsWorkSession = isWorkSession;
+        
+        function formatTime(seconds) {
+            const mins = Math.floor(seconds / 60);
+            const secs = seconds % 60;
+            return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+        }
+        
+        function updateDisplay() {
+            const timerElement = document.getElementById('timer');
+            const sessionTypeElement = document.getElementById('session-type');
+            
+            // 更新计时器显示
+            timerElement.textContent = formatTime(timeLeft);
+            
+            // 检测计时器数字变化，添加动画
+            if (previousTimeLeft !== timeLeft) {
+                timerElement.classList.add('digit-change');
+                setTimeout(() => {
+                    timerElement.classList.remove('digit-change');
+                }, 300);
+            }
+            
+            // 更新会话类型显示
+            const newSessionText = isWorkSession ? '工作' : '休息';
+            sessionTypeElement.textContent = newSessionText;
+            
+            // 检测会话类型变化，添加动画
+            if (previousIsWorkSession !== isWorkSession) {
+                sessionTypeElement.classList.add('changing');
+                setTimeout(() => {
+                    sessionTypeElement.classList.remove('changing');
+                }, 500);
+            }
+            
+            // 更新状态记录
+            previousTimeLeft = timeLeft;
+            previousIsWorkSession = isWorkSession;
+        }
+        
+        function startTimer() {
+            if (isRunning) return;
+            isRunning = true;
+            document.getElementById('start-btn').textContent = '暂停           ';
+ timerInterval = setInterval(() => {
+                timeLeft--;
+                updateDisplay();
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    isRunning = false;
+                    document.getElementById('start-btn').textContent = '开始';
+                    if (isWorkSession) {
+                        ipcRenderer.send('notify-work-end');
+                        showNotificationModal(true);
+                    } else {
+                        ipcRenderer.send('notify-break-end');
+                        showNotificationModal(false);
+                    }
+                }
+            }, 1000);
+        }
+        
+        function pauseTimer() {
+            if (!isRunning) return;
+            isRunning = false;
+            clearInterval(timerInterval);
+            document.getElementById('start-btn').textContent = '继续';
+        }
+        
+        function resetTimer() {
+            clearInterval(timerInterval);
+            isRunning = false;
+            workDuration = (localStorage.getItem('workMinutes') || 25) * 60;
+            breakDuration = (localStorage.getItem('breakMinutes') || 5) * 60;
+            extensionMinutes = parseInt(localStorage.getItem('extensionMinutes')) || 5;
+            timeLeft = isWorkSession ? workDuration : breakDuration;
+            document.getElementById('start-btn').textContent = '开始';
+            updateDisplay();
+        }
+        
+        function toggleTimer() {
+            if (isRunning) {
+                pauseTimer();
+            } else {
+                startTimer();
+            }
+        }
+        
+        function switchSession() {
+            isWorkSession = !isWorkSession;
+            resetTimer();
+        }
+        
+        function extendTimer() {
+            const extensionSeconds = extensionMinutes * 60;
+            timeLeft += extensionSeconds;
+            updateDisplay();
+            console.log(`Timer extended by ${extensionMinutes} minutes. New time left: ${formatTime(timeLeft)}`);
+        }
+        
+        function openSettings() {
+            ipcRenderer.send('show-settings');
+        }
+        
+        function updateChartColors() {
+            if (!timeChart) return;
+            
+            const colors = getChartColors();
+            
+            // 更新数据集颜色
+            timeChart.data.datasets[0].backgroundColor = colors.primaryColor;
+            timeChart.data.datasets[0].borderColor = colors.primaryColor;
+            timeChart.data.datasets[1].backgroundColor = colors.secondaryColor;
+            timeChart.data.datasets[1].borderColor = colors.secondaryColor;
+            
+            // 更新图例标签颜色
+            timeChart.options.plugins.legend.labels.color = colors.textPrimary;
+            
+            // 更新坐标轴颜色
+            timeChart.options.scales.x.grid.color = colors.chartGridColor;
+            timeChart.options.scales.x.grid.borderColor = colors.chartGridColor;
+            timeChart.options.scales.x.ticks.color = colors.textPrimary;
+            timeChart.options.scales.y.grid.color = colors.chartGridColor;
+            timeChart.options.scales.y.grid.borderColor = colors.chartGridColor;
+            timeChart.options.scales.y.ticks.color = colors.textPrimary;
+            
+            // 更新工具提示颜色
+            if (timeChart.options.plugins.tooltip) {
+                timeChart.options.plugins.tooltip.backgroundColor = colors.tooltipBackground;
+                timeChart.options.plugins.tooltip.titleColor = colors.tooltipText;
+                timeChart.options.plugins.tooltip.bodyColor = colors.tooltipText;
+                timeChart.options.plugins.tooltip.borderColor = colors.tooltipBorder;
+            }
+            
+            timeChart.update();
+        }
+
+        function updateTheme(isDark) {
+            document.body.className = isDark ? 'dark' : 'light';
+            
+            // 如果图表已初始化且当前在统计视图，更新图表颜色
+            if (timeChart && document.getElementById('stats-view').classList.contains('active')) {
+                setTimeout(updateChartColors, 50);
+            }
+        }
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            updateDisplay();
+            document.getElementById('start-btn').addEventListener('click', toggleTimer);
+            document.getElementById('reset-btn').addEventListener('click', resetTimer);
+            document.getElementById('switch-btn').addEventListener('click', switchSession);
+            document.getElementById('extension-btn').addEventListener('click', extendTimer);
+            document.getElementById('settings-btn').addEventListener('click', openSettings);
+            
+            document.getElementById('modal-confirm-btn').addEventListener('click', handleConfirm);
+            document.getElementById('modal-extend-btn').addEventListener('click', handleExtend);
+            
+            const isDark = ipcRenderer.sendSync('get-theme');
+            updateTheme(isDark);
+            
+            ipcRenderer.on('theme-changed', (event, isDark) => {
+                updateTheme(isDark);
+            });
+            
+            // ipcRenderer.on('timer-finished', (event, type) => {
+            //     isWorkSession = type === 'break';
+            //     resetTimer();
+            //     alert(type === 'work' ? '工作时间结束！该休息了。' : '休息时间结束！该工作了。');
+            // });
+
+            requestNotificationPermission();
+            
+            ipcRenderer.on('settings-saved', () => {
+                resetTimer();
+            });
+
+            // 导航切换
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const viewId = btn.getAttribute('data-view');
+                    switchView(viewId);
+                });
+            });
+
+            // 时间周期筛选
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const period = btn.getAttribute('data-period');
+                    switchPeriod(period);
+                });
+            });
+
+            // 初始化图表
+            initializeChart();
+        });
+
+        function requestNotificationPermission() {
+            console.log('Checking notification permission...');
+            if ('Notification' in window) {
+                console.log('Notification API available, current permission:', Notification.permission);
+                if (Notification.permission === 'default') {
+                    console.log('Requesting notification permission...');
+                    Notification.requestPermission().then(permission => {
+                        console.log('Notification permission result:', permission);
+                    }).catch(error => {
+                        console.error('Error requesting notification permission:', error);
+                    });
+                } else {
+                    console.log('Notification permission already:', Notification.permission);
+                }
+            } else {
+                console.warn('Notification API not available in this context');
+            }
+        }
+
+        let pendingSessionType = null;
+
+        function showNotificationModal(isWork) {
+            const modal = document.getElementById('notification-modal');
+            const title = document.getElementById('modal-title');
+            const message = document.getElementById('modal-message');
+            
+            if (isWork) {
+                title.textContent = '工作时间结束';
+                message.textContent = '工作时间结束！该休息了。';
+            } else {
+                title.textContent = '休息时间结束';
+                message.textContent = '休息时间结束！该工作了。';
+            }
+            
+            modal.style.display = 'flex';
+            pendingSessionType = isWork;
+        }
+
+        function hideNotificationModal() {
+            const modal = document.getElementById('notification-modal');
+            modal.style.display = 'none';
+        }
+
+        function handleConfirm() {
+            hideNotificationModal();
+            if (pendingSessionType !== null) {
+                isWorkSession = !pendingSessionType;
+                resetTimer();
+                startTimer();
+            }
+            pendingSessionType = null;
+        }
+
+        function handleExtend() {
+            hideNotificationModal();
+            if (pendingSessionType !== null) {
+                const extensionSeconds = extensionMinutes * 60;
+                timeLeft += extensionSeconds;
+                updateDisplay();
+                startTimer();
+                console.log(`Timer extended by ${extensionMinutes} minutes. New time left: ${formatTime(timeLeft)}`);
+            }
+            pendingSessionType = null;
+        }
+
+        let timeChart = null;
+        let currentPeriod = 'day';
+
+        function switchView(viewId) {
+            // 更新导航按钮状态
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                if (btn.getAttribute('data-view') === viewId) {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
+            });
+
+            // 切换视图
+            document.querySelectorAll('.view').forEach(view => {
+                if (view.id === `${viewId}-view`) {
+                    view.classList.add('active');
+                } else {
+                    view.classList.remove('active');
+                }
+            });
+
+            // 如果是统计视图，更新图表
+            if (viewId === 'stats') {
+                setTimeout(updateChart, 100);
+            }
+        }
+
+        function switchPeriod(period) {
+            currentPeriod = period;
+            
+            // 更新筛选按钮状态
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                if (btn.getAttribute('data-period') === period) {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
+            });
+
+            // 更新图表
+            updateChart();
+        }
+
+        function recordSessionTime(isWork, duration) {
+            const now = new Date();
+            const dateKey = now.toISOString().split('T')[0];
+            
+            // 获取现有记录
+            let records = JSON.parse(localStorage.getItem('tomatoRecords') || '{}');
+            
+            if (!records[dateKey]) {
+                records[dateKey] = { work: 0, break: 0 };
+            }
+            
+            // 记录时间（秒转换为分钟）
+            const minutes = Math.round(duration / 60);
+            if (isWork) {
+                records[dateKey].work += minutes;
+            } else {
+                records[dateKey].break += minutes;
+            }
+            
+            // 保存记录
+            localStorage.setItem('tomatoRecords', JSON.stringify(records));
+            
+            // 如果当前在统计视图，更新图表
+            if (document.getElementById('stats-view').classList.contains('active')) {
+                updateChart();
+            }
+        }
+
+        function getTimeRecords(period) {
+            const records = JSON.parse(localStorage.getItem('tomatoRecords') || '{}');
+            const now = new Date();
+            const result = [];
+            
+            let daysCount = 0;
+            switch (period) {
+                case 'day':
+                    daysCount = 1;
+                    break;
+                case 'week':
+                    daysCount = 7;
+                    break;
+                case 'month':
+                    daysCount = 30;
+                    break;
+            }
+            
+            for (let i = daysCount - 1; i >= 0; i--) {
+                const date = new Date();
+                date.setDate(now.getDate() - i);
+                const dateKey = date.toISOString().split('T')[0];
+                
+                const dayRecords = records[dateKey] || { work: 0, break: 0 };
+                result.push({
+                    date: dateKey,
+                    work: dayRecords.work,
+                    break: dayRecords.break,
+                    total: dayRecords.work + dayRecords.break
+                });
+            }
+            
+            return result;
+        }
+
+        function getCssVariable(name) {
+            return getComputedStyle(document.body).getPropertyValue(name).trim();
+        }
+
+        function getChartColors() {
+            const isDark = document.body.classList.contains('dark');
+            
+            // 尝试从CSS变量获取，如果获取失败则使用硬编码值
+            const getColor = (name, lightValue, darkValue) => {
+                const cssValue = getCssVariable(name);
+                if (cssValue && cssValue !== '') {
+                    return cssValue;
+                }
+                return isDark ? darkValue : lightValue;
+            };
+            
+            return {
+                primaryColor: getColor('--primary-color', '#ff6b6b', '#ff8787'),
+                secondaryColor: getColor('--secondary-color', '#51cf66', '#69db7c'),
+                textPrimary: getColor('--text-primary', '#1d1d1f', '#ffffff'),
+                chartGridColor: getColor('--chart-grid-color', 'rgba(0, 0, 0, 0.1)', 'rgba(255, 255, 255, 0.15)'),
+                tooltipBackground: getColor('--background-primary', '#ffffff', '#2e2e2e'),
+                tooltipText: getColor('--text-primary', '#1d1d1f', '#ffffff'),
+                tooltipBorder: getColor('--text-secondary', '#8e8e93', '#e5e5e7')
+            };
+        }
+
+        function initializeChart() {
+            const ctx = document.getElementById('time-chart').getContext('2d');
+            const colors = getChartColors();
+            
+            timeChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: [],
+                    datasets: [
+                        {
+                            label: '工作时间（分钟）',
+                            data: [],
+                            backgroundColor: colors.primaryColor,
+                            borderColor: colors.primaryColor,
+                            borderWidth: 1
+                        },
+                        {
+                            label: '休息时间（分钟）',
+                            data: [],
+                            backgroundColor: colors.secondaryColor,
+                            borderColor: colors.secondaryColor,
+                            borderWidth: 1
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            labels: {
+                                color: colors.textPrimary,
+                                font: {
+                                    size: 11
+                                }
+                            }
+                        },
+                        tooltip: {
+                            backgroundColor: colors.tooltipBackground,
+                            titleColor: colors.tooltipText,
+                            bodyColor: colors.tooltipText,
+                            borderColor: colors.tooltipBorder,
+                            borderWidth: 1,
+                            cornerRadius: 6,
+                            displayColors: true,
+                            callbacks: {
+                                label: function(context) {
+                                    return `${context.dataset.label}: ${context.parsed.y}分钟`;
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            grid: {
+                                color: colors.chartGridColor,
+                                borderColor: colors.chartGridColor
+                            },
+                            ticks: {
+                                color: colors.textPrimary,
+                                maxRotation: 45,
+                                font: {
+                                    size: 11
+                                }
+                            }
+                        },
+                        y: {
+                            beginAtZero: true,
+                            grid: {
+                                color: colors.chartGridColor,
+                                borderColor: colors.chartGridColor
+                            },
+                            ticks: {
+                                color: colors.textPrimary,
+                                font: {
+                                    size: 11
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+            
+            updateChart();
+        }
+
+        function updateChart() {
+            if (!timeChart) return;
+            
+            const records = getTimeRecords(currentPeriod);
+            const labels = records.map(r => {
+                const date = new Date(r.date);
+                switch (currentPeriod) {
+                    case 'day':
+                        return date.toLocaleDateString('zh-CN', { weekday: 'short' });
+                    case 'week':
+                        return date.toLocaleDateString('zh-CN', { month: 'short', day: 'numeric' });
+                    case 'month':
+                        return date.toLocaleDateString('zh-CN', { month: 'short', day: 'numeric' });
+                }
+            });
+            
+            const workData = records.map(r => r.work);
+            const breakData = records.map(r => r.break);
+            
+            timeChart.data.labels = labels;
+            timeChart.data.datasets[0].data = workData;
+            timeChart.data.datasets[1].data = breakData;
+            
+            timeChart.update();
+        }
+
+        // 记录计时器结束时的时间
+        let sessionStartTime = null;
+        let currentSessionType = null;
+        
+        // 包装startTimer函数以记录时间
+        const originalStartTimer = startTimer;
+        startTimer = function() {
+            sessionStartTime = Date.now();
+            currentSessionType = isWorkSession;
+            return originalStartTimer();
+        };
+        
+        // 监听计时器结束事件
+        const checkTimerEnd = () => {
+            if (timeLeft <= 0 && sessionStartTime && currentSessionType !== null) {
+                const duration = Math.round((Date.now() - sessionStartTime) / 1000);
+                recordSessionTime(currentSessionType, duration);
+                sessionStartTime = null;
+                currentSessionType = null;
+            }
+        };
+        
+        // 修改计时器循环以包含记录逻辑
+        const originalSetInterval = setInterval;
+        window.setInterval = function(callback, interval) {
+            if (callback.toString().includes('timeLeft--')) {
+                const wrappedCallback = () => {
+                    callback();
+                    checkTimerEnd();
+                };
+                return originalSetInterval(wrappedCallback, interval);
+            }
+            return originalSetInterval(callback, interval);
+        };
+    </script>
+</head>
+<body class="light">
+    <div class="container">
+        <header>
+            <div class="header-left">
+                <h1>🍅 番茄钟</h1>
+            </div>
+            <div class="header-right">
+                <button id="settings-btn" class="icon-btn">⚙️</button>
+            </div>
+        </header>
+        <nav class="main-nav">
+            <button class="nav-btn active" data-view="timer">计时器</button>
+            <button class="nav-btn" data-view="stats">记录</button>
+        </nav>
+        <main>
+            <div id="timer-view" class="view active">
+                <div class="timer-display">
+                    <div id="timer" class="timer">25:00</div>
+                    <div id="session-type" class="session-type">工作</div>
+                </div>
+                <div class="controls">
+                    <button id="start-btn" class="btn primary">开始</button>
+                    <button id="reset-btn" class="btn secondary">重置</button>
+                    <button id="switch-btn" class="btn secondary">切换</button>
+                    <button id="extension-btn" class="btn secondary">延长</button>
+                </div>
+            </div>
+            <div id="stats-view" class="view">
+                <div class="stats-container">
+                    <h2>时间统计</h2>
+                    <div class="chart-container">
+                        <canvas id="time-chart"></canvas>
+                    </div>
+                    <div class="time-filters">
+                        <button class="filter-btn active" data-period="day">本日</button>
+                        <button class="filter-btn" data-period="week">本周</button>
+                        <button class="filter-btn" data-period="month">本月</button>
+                    </div>
+                </div>
+            </div>
+        </main>
+        <footer>
+            <p>专注工作，定时休息</p>
+        </footer>
+    </div>
+    <div id="notification-modal" class="modal-overlay">
+        <div class="modal">
+            <div class="modal-title" id="modal-title">工作时间结束</div>
+            <div class="modal-message" id="modal-message">工作时间结束！该休息了。</div>
+            <div class="modal-buttons">
+                <button id="modal-extend-btn" class="modal-btn extend">延长</button>
+                <button id="modal-confirm-btn" class="modal-btn confirm">确定</button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
