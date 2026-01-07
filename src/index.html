@@ -13,6 +13,10 @@
          let breakDuration = (localStorage.getItem('breakMinutes') || 5) * 60;
          let extensionMinutes = parseInt(localStorage.getItem('extensionMinutes')) || 5;
          let timerInterval = null;
+         let timerStartTime = null;
+         let initialTimeLeftAtStart = 0;
+         let sessionStartTime = null;
+         let currentSessionType = null;
          let timeLeft = workDuration;
          let isRunning = false;
          let isWorkSession = true;
@@ -60,14 +64,37 @@
         function startTimer() {
             if (isRunning) return;
             isRunning = true;
+            timerStartTime = Date.now();
+            initialTimeLeftAtStart = timeLeft;
             document.getElementById('start-btn').textContent = '暂停           ';
- timerInterval = setInterval(() => {
-                timeLeft--;
-                updateDisplay();
+            
+            function timerTick() {
+                if (timerStartTime === null) {
+                    clearInterval(timerInterval);
+                    isRunning = false;
+                    return;
+                }
+                
+                const elapsed = Math.floor((Date.now() - timerStartTime) / 1000);
+                const newTimeLeft = initialTimeLeftAtStart - elapsed;
+                
+                if (newTimeLeft !== timeLeft) {
+                    timeLeft = newTimeLeft;
+                    updateDisplay();
+                }
+                
                 if (timeLeft <= 0) {
                     clearInterval(timerInterval);
                     isRunning = false;
+                    timerStartTime = null;
                     document.getElementById('start-btn').textContent = '开始';
+                    // 记录会话时间
+                    if (sessionStartTime !== null && currentSessionType !== null) {
+                        const duration = Math.round((Date.now() - sessionStartTime) / 1000);
+                        recordSessionTime(currentSessionType, duration);
+                        sessionStartTime = null;
+                        currentSessionType = null;
+                    }
                     if (isWorkSession) {
                         ipcRenderer.send('notify-work-end');
                         showNotificationModal(true);
@@ -76,19 +103,30 @@
                         showNotificationModal(false);
                     }
                 }
-            }, 1000);
+            }
+            
+            timerInterval = setInterval(timerTick, 100);
         }
         
         function pauseTimer() {
             if (!isRunning) return;
             isRunning = false;
             clearInterval(timerInterval);
+            // 更新准确的剩余时间
+            if (timerStartTime !== null) {
+                const elapsed = Math.floor((Date.now() - timerStartTime) / 1000);
+                timeLeft = initialTimeLeftAtStart - elapsed;
+                timerStartTime = null;
+                updateDisplay();
+            }
             document.getElementById('start-btn').textContent = '继续';
         }
         
         function resetTimer() {
             clearInterval(timerInterval);
             isRunning = false;
+            timerStartTime = null;
+            initialTimeLeftAtStart = 0;
             workDuration = (localStorage.getItem('workMinutes') || 25) * 60;
             breakDuration = (localStorage.getItem('breakMinutes') || 5) * 60;
             extensionMinutes = parseInt(localStorage.getItem('extensionMinutes')) || 5;
@@ -112,7 +150,14 @@
         
         function extendTimer() {
             const extensionSeconds = extensionMinutes * 60;
-            timeLeft += extensionSeconds;
+            if (isRunning && timerStartTime !== null) {
+                initialTimeLeftAtStart += extensionSeconds;
+                // 重新计算当前剩余时间
+                const elapsed = Math.floor((Date.now() - timerStartTime) / 1000);
+                timeLeft = initialTimeLeftAtStart - elapsed;
+            } else {
+                timeLeft += extensionSeconds;
+            }
             updateDisplay();
             console.log(`Timer extended by ${extensionMinutes} minutes. New time left: ${formatTime(timeLeft)}`);
         }
@@ -525,8 +570,6 @@
         }
 
         // 记录计时器结束时的时间
-        let sessionStartTime = null;
-        let currentSessionType = null;
         
         // 包装startTimer函数以记录时间
         const originalStartTimer = startTimer;

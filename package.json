@@ -25,7 +25,7 @@
     },
     "mac": {
       "category": "public.app-category.productivity",
-      "target": ["dmg", "zip"]
+      "target": ["zip"]
     },
     "asar": true
   }
