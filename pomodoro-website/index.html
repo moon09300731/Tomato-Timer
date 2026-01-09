@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>番茄钟 - 专注与效率的完美结合</title>
+    <meta name="description" content="专业的番茄钟应用，帮助您提高工作效率，平衡工作与休息。提供智能计时、统计分析和个性化设置功能。">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="assets/favicon.ico">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdnjs.cloudflare.com/ajax/libs https://fonts.googleapis.com; style-src 'self' https://cdnjs.cloudflare.com/ajax/libs https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:;">
+    
+    <!-- 结构化数据标记 -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@graph": [
+            {
+                "@type": "WebSite",
+                "@id": "https://pomodoro-app.example.com/#website",
+                "url": "https://pomodoro-app.example.com/",
+                "name": "番茄钟应用",
+                "description": "专业的番茄钟应用，帮助您提高工作效率，平衡工作与休息。",
+                "publisher": {
+                    "@type": "Organization",
+                    "name": "番茄钟应用",
+                    "logo": {
+                        "@type": "ImageObject",
+                        "url": "https://pomodoro-app.example.com/assets/logo.png"
+                    }
+                }
+            },
+            {
+                "@type": "SoftwareApplication",
+                "name": "番茄钟",
+                "applicationCategory": "ProductivityApplication",
+                "operatingSystem": "macOS",
+                "description": "专业的番茄钟应用，帮助您提高工作效率，平衡工作与休息。提供智能计时、统计分析和个性化设置功能。",
+                "url": "https://pomodoro-app.example.com/",
+                "offers": {
+                    "@type": "Offer",
+                    "price": "0",
+                    "priceCurrency": "USD"
+                },
+                "aggregateRating": {
+                    "@type": "AggregateRating",
+                    "ratingValue": "4.8",
+                    "ratingCount": "128"
+                }
+            }
+        ]
+    }
+    </script>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="container">
+            <a href="index.html" class="logo">
+                <span class="logo-icon">🍅</span>
+                <span class="logo-text">番茄钟</span>
+            </a>
+            <button class="nav-toggle" aria-label="菜单">
+                <span class="hamburger"></span>
+            </button>
+            <ul class="nav-menu">
+                <li><a href="index.html" class="nav-link active">首页</a></li>
+                <li><a href="pages/features.html" class="nav-link">功能特色</a></li>
+                <li><a href="pages/download.html" class="nav-link">下载</a></li>
+                <li><a href="pages/changelog.html" class="nav-link">更新日志</a></li>
+                <li><a href="pages/support.html" class="nav-link">支持我们</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- 主内容区域 -->
+    <main>
+        <!-- 英雄区域 -->
+        <section class="hero">
+            <div class="container">
+                <div class="hero-content">
+                    <h1 class="hero-title">专注工作，智能休息</h1>
+                    <p class="hero-subtitle">专业的番茄钟应用，帮助您提高工作效率，平衡工作与休息。提供智能计时、统计分析和个性化设置功能。</p>
+                    <div class="hero-buttons">
+                        <a href="pages/download.html" class="btn btn-primary">
+                            <i class="fas fa-download"></i> 下载 macOS 版
+                        </a>
+                        <a href="pages/features.html" class="btn btn-secondary">
+                            <i class="fas fa-info-circle"></i> 了解功能
+                        </a>
+                    </div>
+                </div>
+                <div class="hero-image">
+                    <div class="mockup">
+                        <!-- 应用界面模拟图 -->
+                        <div class="mockup-screen">
+                            <div class="mockup-header">
+                                <span class="mockup-title">番茄钟</span>
+                                <span class="mockup-time">25:00</span>
+                                <span class="mockup-status">工作中</span>
+                            </div>
+                            <div class="mockup-progress">
+                                <div class="progress-ring">
+                                    <svg width="120" height="120">
+                                        <circle class="progress-bg" cx="60" cy="60" r="55" stroke-width="8" fill="transparent"/>
+                                        <circle class="progress-fill" cx="60" cy="60" r="55" stroke-width="8" fill="transparent"
+                                                stroke-dasharray="345.575" stroke-dashoffset="69.115"/>
+                                    </svg>
+                                    <div class="progress-text">
+                                        <span class="time">25:00</span>
+                                        <span class="label">剩余时间</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mockup-controls">
+                                <button class="mockup-btn">开始</button>
+                                <button class="mockup-btn">重置</button>
+                                <button class="mockup-btn">切换</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 核心功能预览 -->
+        <section class="features-preview">
+            <div class="container">
+                <h2 class="section-title">核心功能</h2>
+                <p class="section-subtitle">番茄钟应用集成了多种功能，助您提升工作效率</p>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <h3 class="feature-title">智能计时</h3>
+                        <p class="feature-description">自定义工作和休息时间，自动切换会话模式，支持延长计时功能。</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <h3 class="feature-title">数据分析</h3>
+                        <p class="feature-description">详细统计您的工作时间、休息时间和效率趋势，生成可视化报告。</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-palette"></i>
+                        </div>
+                        <h3 class="feature-title">个性化主题</h3>
+                        <p class="feature-description">支持明亮和深色主题，可根据个人喜好切换界面颜色和样式。</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-bell"></i>
+                        </div>
+                        <h3 class="feature-title">智能提醒</h3>
+                        <p class="feature-description">工作结束和休息结束时发送通知提醒，帮助您保持良好的工作节奏。</p>
+                    </div>
+                </div>
+                <div class="text-center">
+                    <a href="pages/features.html" class="btn btn-outline">
+                        <i class="fas fa-arrow-right"></i> 查看所有功能
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- 应用截图展示 -->
+        <section class="screenshots">
+            <div class="container">
+                <h2 class="section-title">应用界面</h2>
+                <p class="section-subtitle">简洁美观的设计，提供出色的用户体验</p>
+                <div class="screenshots-grid">
+                    <!-- 截图将由JavaScript动态加载 -->
+                    <div class="screenshot-placeholder">
+                        <i class="fas fa-desktop"></i>
+                        <p>应用截图加载中...</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 下载号召 -->
+        <section class="cta">
+            <div class="container">
+                <h2 class="cta-title">立即开始使用番茄钟</h2>
+                <p class="cta-subtitle">免费下载，立即提升您的工作效率</p>
+                <a href="pages/download.html" class="btn btn-large btn-primary">
+                    <i class="fas fa-download"></i> 下载 macOS 应用
+                </a>
+                <p class="cta-note">当前版本 v1.0.0 | 系统要求：macOS 11.0+</p>
+            </div>
+        </section>
+    </main>
+
+    <!-- 页脚 -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <a href="index.html" class="footer-logo">
+                        <span class="logo-icon">🍅</span>
+                        <span class="logo-text">番茄钟</span>
+                    </a>
+                    <p class="footer-description">专业的番茄钟应用，帮助您提高工作效率，平衡工作与休息。</p>
+                    <div class="social-links">
+                        <a href="#" class="social-link"><i class="fab fa-github"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-weibo"></i></a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h3 class="footer-heading">产品</h3>
+                    <ul class="footer-links">
+                        <li><a href="pages/features.html">功能特色</a></li>
+                        <li><a href="pages/download.html">下载</a></li>
+                        <li><a href="pages/changelog.html">更新日志</a></li>
+                        <li><a href="pages/support.html">支持我们</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3 class="footer-heading">支持</h3>
+                    <ul class="footer-links">
+                        <li><a href="pages/support.html#faq">常见问题</a></li>
+                        <li><a href="pages/support.html">联系支持</a></li>
+                        <li><a href="pages/support.html">打赏支持</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3 class="footer-heading">法律</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">隐私政策</a></li>
+                        <li><a href="#">使用条款</a></li>
+                        <li><a href="LICENSE">开源协议</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 番茄钟应用。保留所有权利。</p>
+                <p>专注工作，定时休息</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript文件 -->
+    <script src="js/main.js"></script>
+    <script src="js/navigation.js"></script>
+</body>
+</html>

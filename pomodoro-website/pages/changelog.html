@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>更新日志 - 番茄钟</title>
+    <meta name="description" content="番茄钟应用的版本更新历史，包含新功能、改进和问题修复的详细说明。">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/responsive.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="../assets/favicon.ico">
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="container">
+            <a href="../index.html" class="logo">
+                <span class="logo-icon">🍅</span>
+                <span class="logo-text">番茄钟</span>
+            </a>
+            <button class="nav-toggle" aria-label="菜单">
+                <span class="hamburger"></span>
+            </button>
+            <ul class="nav-menu">
+                <li><a href="../index.html" class="nav-link">首页</a></li>
+                <li><a href="features.html" class="nav-link">功能特色</a></li>
+                <li><a href="download.html" class="nav-link">下载</a></li>
+                <li><a href="changelog.html" class="nav-link active">更新日志</a></li>
+                <li><a href="support.html" class="nav-link">支持我们</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- 主内容区域 -->
+    <main>
+        <!-- 页面标题 -->
+        <section class="page-header">
+            <div class="container">
+                <h2 class="section-title">更新日志</h2>
+                <p class="section-subtitle">了解番茄钟的每个更新和进步</p>
+                
+                <!-- 筛选工具栏 -->
+                <div class="changelog-filters">
+                    <div class="filter-group">
+                        <h3 class="filter-title">筛选更新类型</h3>
+                        <div class="filter-buttons">
+                            <button class="filter-btn active" data-filter="all">全部</button>
+                            <button class="filter-btn" data-filter="feature">新增功能</button>
+                            <button class="filter-btn" data-filter="improvement">改进优化</button>
+                            <button class="filter-btn" data-filter="bugfix">问题修复</button>
+                        </div>
+                    </div>
+                    <div class="filter-group">
+                        <h3 class="filter-title">筛选日期范围</h3>
+                        <div class="date-filters">
+                            <div class="date-input-group">
+                                <label for="date-from">从</label>
+                                <input type="date" id="date-from" class="date-input">
+                            </div>
+                            <div class="date-input-group">
+                                <label for="date-to">到</label>
+                                <input type="date" id="date-to" class="date-input">
+                            </div>
+                            <button class="filter-btn date-apply">应用</button>
+                            <button class="filter-btn date-clear">清除</button>
+                        </div>
+                    </div>
+                    <div class="filter-stats">
+                        <span class="stats-text">显示 <span id="visible-count">8</span> 个版本中的 <span id="filtered-count">8</span> 个</span>
+                        <button class="filter-reset">重置筛选</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 更新日志内容 -->
+        <section class="changelog-content">
+            <div class="container">
+                <!-- 版本 1.0.0 -->
+                <div class="changelog-version" id="v1.0.0">
+                    <div class="version-header">
+                        <h2 class="version-title">v1.0.0</h2>
+                        <div class="version-meta">
+                            <span class="version-date">2024-01-08</span>
+                            <span class="version-tag stable">稳定版</span>
+                        </div>
+                    </div>
+                    <div class="version-changes">
+                        <div class="change-category">
+                            <h3 class="category-title">🚀 新功能</h3>
+                            <ul class="change-list">
+                                <li class="change-item feature">
+                                    <span class="change-type">新增</span>
+                                    <span class="change-text">完整的番茄钟计时功能，支持工作和休息模式</span>
+                                </li>
+                                <li class="change-item feature">
+                                    <span class="change-type">新增</span>
+                                    <span class="change-text">统计仪表板，显示工作时间、休息时间和效率趋势</span>
+                                </li>
+                                <li class="change-item feature">
+                                    <span class="change-type">新增</span>
+                                    <span class="change-text">明亮和深色主题，支持自动切换</span>
+                                </li>
+                                <li class="change-item feature">
+                                    <span class="change-type">新增</span>
+                                    <span class="change-text">桌面通知，工作/休息结束时提醒</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="change-category">
+                            <h3 class="category-title">✨ 改进</h3>
+                            <ul class="change-list">
+                                <li class="change-item improvement">
+                                    <span class="change-type">优化</span>
+                                    <span class="change-text">改进用户界面设计，提升用户体验</span>
+                                </li>
+                                <li class="change-item improvement">
+                                    <span class="change-type">优化</span>
+                                    <span class="change-text">增强应用性能，减少内存占用</span>
+                                </li>
+                                <li class="change-item improvement">
+                                    <span class="change-type">优化</span>
+                                    <span class="change-text">改进设置页面，添加更多自定义选项</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="change-category">
+                            <h3 class="category-title">🐛 修复</h3>
+                            <ul class="change-list">
+                                <li class="change-item bugfix">
+                                    <span class="change-type">修复</span>
+                                    <span class="change-text">修复计时器暂停后恢复的问题</span>
+                                </li>
+                                <li class="change-item bugfix">
+                                    <span class="change-type">修复</span>
+                                    <span class="change-text">修复深色主题下文本对比度问题</span>
+                                </li>
+                                <li class="change-item bugfix">
+                                    <span class="change-type">修复</span>
+                                    <span class="change-text">修复通知权限请求逻辑</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="version-footer">
+                        <a href="https://github.com/moon09300731/Tomato-Timer/releases/tag/v1.0.0" class="github-link" target="_blank">
+                            <i class="fab fa-github"></i> 查看 GitHub 发布页面
+                        </a>
+                    </div>
+                </div>
+
+                <!-- 版本 0.9.0 -->
+                <div class="changelog-version" id="v0.9.0">
+                    <div class="version-header">
+                        <h2 class="version-title">v0.9.0</h2>
+                        <div class="version-meta">
+                            <span class="version-date">2023-12-20</span>
+                            <span class="version-tag beta">测试版</span>
+                        </div>
+                    </div>
+                    <div class="version-changes">
+                        <div class="change-category">
+                            <h3 class="category-title">🚀 新功能</h3>
+                            <ul class="change-list">
+                                <li class="change-item feature">
+                                    <span class="change-type">新增</span>
+                                    <span class="change-text">深色主题模式</span>
+                                </li>
+                                <li class="change-item feature">
+                                    <span class="change-type">新增</span>
+                                    <span class="change-text">改进的统计图表，支持更多数据可视化</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="change-category">
+                            <h3 class="category-title">✨ 改进</h3>
+                            <ul class="change-list">
+                                <li class="change-item improvement">
+                                    <span class="change-type">优化</span>
+                                    <span class="change-text">重构代码架构，提高可维护性</span>
+                                </li>
+                                <li class="change-item improvement">
+                                    <span class="change-type">优化</span>
+                                    <span class="change-text">减少应用启动时间</span>
+                                </li>
+                                <li class="change-item improvement">
+                                    <span class="change-type">优化</span>
+                                    <span class="change-text">改进内存管理</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="version-footer">
+                        <a href="https://github.com/moon09300731/Tomato-Timer/releases/tag/v0.9.0" class="github-link" target="_blank">
+                            <i class="fab fa-github"></i> 查看 GitHub 发布页面
+                        </a>
+                    </div>
+                </div>
+
+                <!-- 版本 0.8.0 -->
+                <div class="changelog-version" id="v0.8.0">
+                    <div class="version-header">
+                        <h2 class="version-title">v0.8.0</h2>
+                        <div class="version-meta">
+                            <span class="version-date">2023-11-15</span>
+                            <span class="version-tag beta">测试版</span>
+                        </div>
+                    </div>
+                    <div class="version-changes">
+                        <div class="change-category">
+                            <h3 class="category-title">🚀 新功能</h3>
+                            <ul class="change-list">
+                                <li class="change-item feature">
+                                    <span class="change-type">新增</span>
+                                    <span class="change-text">桌面通知功能</span>
+                                </li>
+                                <li class="change-item feature">
+                                    <span class="change-type">新增</span>
+                                    <span class="change-text">设置页面，允许自定义时间和偏好</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="change-category">
+                            <h3 class="category-title">✨ 改进</h3>
+                            <ul class="change-list">
+                                <li class="change-item improvement">
+                                    <span class="change-type">优化</span>
+                                    <span class="change-text">改进用户界面布局</span>
+                                </li>
+                                <li class="change-item improvement">
+                                    <span class="change-type">优化</span>
+                                    <span class="change-text">增强跨平台兼容性</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="change-category">
+                            <h3 class="category-title">🐛 修复</h3>
+                            <ul class="change-list">
+                                <li class="change-item bugfix">
+                                    <span class="change-type">修复</span>
+                                    <span class="change-text">修复计时器精度问题</span>
+                                </li>
+                                <li class="change-item bugfix">
+                                    <span class="change-type">修复</span>
+                                    <span class="change-text">修复数据保存问题</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="version-footer">
+                        <a href="https://github.com/moon09300731/Tomato-Timer/releases/tag/v0.8.0" class="github-link" target="_blank">
+                            <i class="fab fa-github"></i> 查看 GitHub 发布页面
+                        </a>
+                    </div>
+                </div>
+
+                <!-- 版本 0.7.0 -->
+                <div class="changelog-version" id="v0.7.0">
+                    <div class="version-header">
+                        <h2 class="version-title">v0.7.0</h2>
+                        <div class="version-meta">
+                            <span class="version-date">2023-10-10</span>
+                            <span class="version-tag alpha">早期版本</span>
+                        </div>
+                    </div>
+                    <div class="version-changes">
+                        <div class="change-category">
+                            <h3 class="category-title">🚀 新功能</h3>
+                            <ul class="change-list">
+                                <li class="change-item feature">
+                                    <span class="change-type">新增</span>
+                                    <span class="change-text">基础番茄钟计时功能</span>
+                                </li>
+                                <li class="change-item feature">
+                                    <span class="change-type">新增</span>
+                                    <span class="change-text">简单的时间统计</span>
+                                </li>
+                                <li class="change-item feature">
+                                    <span class="change-type">新增</span>
+                                    <span class="change-text">基本设置选项</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="change-category">
+                            <h3 class="category-title">🐛 修复</h3>
+                            <ul class="change-list">
+                                <li class="change-item bugfix">
+                                    <span class="change-type">修复</span>
+                                    <span class="change-text">修复多个界面显示问题</span>
+                                </li>
+                                <li class="change-item bugfix">
+                                    <span class="change-type">修复</span>
+                                    <span class="change-text">修复应用崩溃问题</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="version-footer">
+                        <a href="https://github.com/moon09300731/Tomato-Timer/releases/tag/v0.7.0" class="github-link" target="_blank">
+                            <i class="fab fa-github"></i> 查看 GitHub 发布页面
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 版本统计 -->
+        <section class="version-stats">
+            <div class="container">
+                <h2 class="section-title">版本统计</h2>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-number">4</div>
+                        <div class="stat-label">总版本数</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">12</div>
+                        <div class="stat-label">新增功能</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">8</div>
+                        <div class="stat-label">改进项目</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">7</div>
+                        <div class="stat-label">问题修复</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 订阅更新 -->
+        <section class="subscribe-updates">
+            <div class="container">
+                <h2 class="section-title">订阅更新</h2>
+                <p class="section-subtitle">在新版本发布时接收通知</p>
+                <form class="subscribe-form">
+                    <div class="form-group">
+                        <input type="email" placeholder="输入您的邮箱地址" required>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-bell"></i> 订阅
+                        </button>
+                    </div>
+                    <p class="form-note">我们尊重您的隐私，不会发送垃圾邮件。您可以随时取消订阅。</p>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <!-- 页脚 -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <a href="../index.html" class="footer-logo">
+                        <span class="logo-icon">🍅</span>
+                        <span class="logo-text">番茄钟</span>
+                    </a>
+                    <p class="footer-description">专业的番茄钟应用，帮助您提高工作效率，平衡工作与休息。</p>
+                    <div class="social-links">
+                        <a href="#" class="social-link"><i class="fab fa-github"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-weibo"></i></a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h3 class="footer-heading">产品</h3>
+                    <ul class="footer-links">
+                        <li><a href="features.html">功能特色</a></li>
+                        <li><a href="download.html">下载</a></li>
+                        <li><a href="changelog.html">更新日志</a></li>
+                        <li><a href="support.html">支持我们</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3 class="footer-heading">支持</h3>
+                    <ul class="footer-links">
+                        <li><a href="support.html#faq">常见问题</a></li>
+                        <li><a href="support.html">联系支持</a></li>
+                        <li><a href="support.html">打赏支持</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3 class="footer-heading">法律</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">隐私政策</a></li>
+                        <li><a href="#">使用条款</a></li>
+                        <li><a href="../LICENSE">开源协议</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 番茄钟应用。保留所有权利。</p>
+                <p>专注工作，定时休息</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript文件 -->
+    <script src="../js/main.js"></script>
+    <script src="../js/navigation.js"></script>
+    <script>
+        // 更新日志页面特定脚本
+        document.addEventListener('DOMContentLoaded', function() {
+            // 筛选功能
+            const filterButtons = document.querySelectorAll('.filter-btn');
+            const changeItems = document.querySelectorAll('.change-item');
+            
+            filterButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    // 更新活动按钮
+                    filterButtons.forEach(btn => btn.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    const filter = this.getAttribute('data-filter');
+                    
+                    // 筛选项目
+                    changeItems.forEach(item => {
+                        if (filter === 'all' || item.classList.contains(filter)) {
+                            item.style.display = 'flex';
+                        } else {
+                            item.style.display = 'none';
+                        }
+                    });
+                });
+            });
+            
+            // 平滑滚动到版本锚点
+            const anchorLinks = document.querySelectorAll('a[href^="#"]');
+            anchorLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    const targetId = this.getAttribute('href');
+                    if (targetId === '#') return;
+                    
+                    const targetElement = document.querySelector(targetId);
+                    if (targetElement) {
+                        e.preventDefault();
+                        const navbarHeight = document.querySelector('.navbar').offsetHeight;
+                        const targetPosition = targetElement.offsetTop - navbarHeight - 20;
+                        
+                        window.scrollTo({
+                            top: targetPosition,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

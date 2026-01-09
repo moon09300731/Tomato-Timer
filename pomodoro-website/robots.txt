@@ -1,0 +1,25 @@
+User-agent: *
+Allow: /
+Disallow: /assets/
+Disallow: /js/
+Disallow: /css/
+Allow: /css/style.css
+Allow: /css/responsive.css
+Allow: /js/main.js
+Allow: /js/navigation.js
+
+Sitemap: https://pomodoro-app.example.com/sitemap.xml
+
+# 爬虫延迟请求，避免服务器压力
+Crawl-delay: 2
+
+# 禁止爬取某些文件类型
+Disallow: /*.pdf$
+Disallow: /*.zip$
+
+# 允许所有页面索引
+Allow: /pages/
+
+# 搜索引擎优化建议
+# 本网站使用HTML5语义化标签，支持响应式设计
+# 所有图片都有alt属性，链接都有title属性
