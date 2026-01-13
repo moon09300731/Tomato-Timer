@@ -42,56 +42,56 @@ function loadScreenshots() {
             id: 1,
             title: '主计时器界面',
             description: '简洁美观的计时器界面，显示工作/休息状态和圆形进度条',
-            url: 'https://via.placeholder.com/600x450/ff6b6b/ffffff?text=主计时器界面',
+            url: `data:image/svg+xml,${encodeURIComponent(`<svg width="600" height="450" viewBox="0 0 600 450" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="600" height="450" fill="%23ff6b6b"/><text x="300" y="225" font-size="24" font-family="Arial, sans-serif" fill="white" text-anchor="middle" dy=".3em">主计时器界面</text></svg>`)}`,
             alt: '番茄钟主计时器界面'
         },
         {
             id: 2,
             title: '深色主题模式',
             description: '夜间模式，保护眼睛，减少蓝光对睡眠的影响',
-            url: 'https://via.placeholder.com/600x450/2e2e2e/ffffff?text=深色主题界面',
+            url: `data:image/svg+xml,${encodeURIComponent(`<svg width="600" height="450" viewBox="0 0 600 450" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="600" height="450" fill="%232e2e2e"/><text x="300" y="225" font-size="24" font-family="Arial, sans-serif" fill="white" text-anchor="middle" dy=".3em">深色主题界面</text></svg>`)}`,
             alt: '番茄钟深色主题界面'
         },
         {
             id: 3,
             title: '统计仪表板',
             description: '详细的工作时间统计和效率分析，可视化图表展示',
-            url: 'https://via.placeholder.com/600x450/339af0/ffffff?text=统计仪表板',
+            url: `data:image/svg+xml,${encodeURIComponent(`<svg width="600" height="450" viewBox="0 0 600 450" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="600" height="450" fill="%23339af0"/><text x="300" y="225" font-size="24" font-family="Arial, sans-serif" fill="white" text-anchor="middle" dy=".3em">统计仪表板</text></svg>`)}`,
             alt: '番茄钟统计仪表板'
         },
         {
             id: 4,
             title: '设置页面',
             description: '自定义工作和休息时间设置，通知偏好调整',
-            url: 'https://via.placeholder.com/600x450/51cf66/ffffff?text=设置页面',
+            url: `data:image/svg+xml,${encodeURIComponent(`<svg width="600" height="450" viewBox="0 0 600 450" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="600" height="450" fill="%2351cf66"/><text x="300" y="225" font-size="24" font-family="Arial, sans-serif" fill="white" text-anchor="middle" dy=".3em">设置页面</text></svg>`)}`,
             alt: '番茄钟设置页面'
         },
         {
             id: 5,
             title: '任务管理界面',
             description: '创建和管理待办任务，分配番茄钟数量',
-            url: 'https://via.placeholder.com/600x450/ffa94d/000000?text=任务管理',
+            url: `data:image/svg+xml,${encodeURIComponent(`<svg width="600" height="450" viewBox="0 0 600 450" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="600" height="450" fill="%23ffa94d"/><text x="300" y="225" font-size="24" font-family="Arial, sans-serif" fill="black" text-anchor="middle" dy=".3em">任务管理</text></svg>`)}`,
             alt: '番茄钟任务管理界面'
         },
         {
             id: 6,
             title: '历史记录页面',
             description: '查看历史工作记录，按日/周/月统计工作效率',
-            url: 'https://via.placeholder.com/600x450/845ef7/ffffff?text=历史记录',
+            url: `data:image/svg+xml,${encodeURIComponent(`<svg width="600" height="450" viewBox="0 0 600 450" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="600" height="450" fill="%23845ef7"/><text x="300" y="225" font-size="24" font-family="Arial, sans-serif" fill="white" text-anchor="middle" dy=".3em">历史记录</text></svg>`)}`,
             alt: '番茄钟历史记录页面'
         },
         {
             id: 7,
             title: '通知提醒界面',
             description: '工作/休息结束时的桌面通知和声音提醒',
-            url: 'https://via.placeholder.com/600x450/ff8787/000000?text=通知提醒',
+            url: `data:image/svg+xml,${encodeURIComponent(`<svg width="600" height="450" viewBox="0 0 600 450" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="600" height="450" fill="%23ff8787"/><text x="300" y="225" font-size="24" font-family="Arial, sans-serif" fill="black" text-anchor="middle" dy=".3em">通知提醒</text></svg>`)}`,
             alt: '番茄钟通知提醒界面'
         },
         {
             id: 8,
             title: '数据导出功能',
             description: '导出统计数据为CSV/JSON格式，方便进一步分析',
-            url: 'https://via.placeholder.com/600x450/20c997/ffffff?text=数据导出',
+            url: `data:image/svg+xml,${encodeURIComponent(`<svg width="600" height="450" viewBox="0 0 600 450" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="600" height="450" fill="%2320c997"/><text x="300" y="225" font-size="24" font-family="Arial, sans-serif" fill="white" text-anchor="middle" dy=".3em">数据导出</text></svg>`)}`,
             alt: '番茄钟数据导出功能'
         }
     ];

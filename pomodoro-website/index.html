@@ -7,7 +7,7 @@
     <meta name="description" content="专业的番茄钟应用，帮助您提高工作效率，平衡工作与休息。提供智能计时、统计分析和个性化设置功能。">
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/responsive.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- 移除外部Font Awesome CDN依赖，使用内联SVG图标 -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -90,12 +90,20 @@
                 <div class="hero-content">
                     <h1 class="hero-title">专注工作，智能休息</h1>
                     <p class="hero-subtitle">专业的番茄钟应用，帮助您提高工作效率，平衡工作与休息。提供智能计时、统计分析和个性化设置功能。</p>
+                    <!-- 修复：使用内联SVG图标替代Font Awesome CDN，确保稳定加载 -->
                     <div class="hero-buttons">
                         <a href="pages/download.html" class="btn btn-primary">
-                            <i class="fas fa-download"></i> 下载 macOS 版
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="vertical-align: middle; margin-right: 4px;">
+                                <path d="M12 4L12 16M12 16L8 12M12 16L16 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M4 20H20" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                            </svg> 下载 macOS 版
                         </a>
                         <a href="pages/features.html" class="btn btn-secondary">
-                            <i class="fas fa-info-circle"></i> 了解功能
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="vertical-align: middle; margin-right: 4px;">
+                                <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2"/>
+                                <path d="M12 16V12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                                <circle cx="12" cy="8" r="0.5" fill="currentColor" stroke="currentColor"/>
+                            </svg> 了解功能
                         </a>
                     </div>
                 </div>

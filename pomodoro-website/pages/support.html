@@ -7,7 +7,7 @@
     <meta name="description" content="支持番茄钟应用的开发，获取帮助，查看常见问题解答。">
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="../css/responsive.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- 移除外部Font Awesome CDN依赖，使用内联SVG图标 -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -18,7 +18,12 @@
     <nav class="navbar">
         <div class="container">
             <a href="../index.html" class="logo">
-                <span class="logo-icon">🍅</span>
+                <span class="logo-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="12" cy="12" r="10" fill="#EF4444"/>
+                    <path d="M12 4C12 4 8 6 8 10C8 14 12 16 12 16C12 16 16 14 16 10C16 6 12 4 12 4Z" fill="#22C55E"/>
+                    <path d="M10 8C10 8 8 10 8 12C8 14 10 16 10 16" stroke="#F59E0B" stroke-width="1.5" stroke-linecap="round"/>
+                    <path d="M14 8C14 8 16 10 16 12C16 14 14 16 14 16" stroke="#F59E0B" stroke-width="1.5" stroke-linecap="round"/>
+                </svg></span>
                 <span class="logo-text">番茄钟</span>
             </a>
             <button class="nav-toggle" aria-label="菜单">
@@ -51,34 +56,48 @@
                 <p class="section-subtitle">如果您喜欢番茄钟应用，可以通过以下方式支持我们的开发工作</p>
                 
                 <div class="donation-methods">
-                    <div class="donation-method">
-                        <div class="method-icon">
-                            <i class="fab fa-weixin"></i>
-                        </div>
-                        <h3 class="method-title">微信支付</h3>
-                        <div class="qrcode-container">
-                            <div class="qrcode-placeholder">
-                                <i class="fas fa-qrcode"></i>
-                                <p>微信支付二维码</p>
-                            </div>
-                        </div>
-                        <p class="method-description">使用微信扫描二维码进行支付</p>
+                <div class="donation-method">
+                    <div class="method-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm-2 19c-3.866 0-7-3.134-7-7 0-3.865 3.134-7 7-7s7 3.135 7 7c0 3.866-3.134 7-7 7zm3-11h-6v6h2v-4h4v-2z" fill="currentColor"/>
+                        </svg>
                     </div>
-                    
-                    <div class="donation-method">
-                        <div class="method-icon">
-                            <i class="fab fa-alipay"></i>
+                    <h3 class="method-title">微信支付</h3>
+                    <div class="qrcode-container">
+                        <div class="qrcode-placeholder">
+                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <rect x="2" y="2" width="20" height="20" rx="2" stroke="currentColor" stroke-width="2"/>
+                                <path d="M6 12h12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                                <path d="M12 6v12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                                <path d="M9 9h6v6H9z" stroke="currentColor" stroke-width="2"/>
+                            </svg>
+                            <p>微信支付二维码</p>
                         </div>
-                        <h3 class="method-title">支付宝</h3>
-                        <div class="qrcode-container">
-                            <div class="qrcode-placeholder">
-                                <i class="fas fa-qrcode"></i>
-                                <p>支付宝二维码</p>
-                            </div>
-                        </div>
-                        <p class="method-description">使用支付宝扫描二维码进行支付</p>
                     </div>
+                    <p class="method-description">使用微信扫描二维码进行支付</p>
                 </div>
+                
+                <div class="donation-method">
+                    <div class="method-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm3.2 14.8c-.23.23-.51.35-.79.35-.29 0-.57-.12-.79-.35L12 12.8l-2.4 2c-.23.23-.51.35-.79.35-.29 0-.57-.12-.79-.35-.23-.23-.35-.51-.35-.79 0-.29.12-.57.35-.79L10.4 11l-2.4-2c-.23-.23-.35-.51-.35-.79 0-.29.12-.57.35-.79.23-.23.51-.35.79-.35.29 0 .57.12.79.35L12 9.2l2.4-2c.23-.23.51-.35.79-.35.29 0 .57.12.79.35.23.23.35.51.35.79 0 .29-.12.57-.35.79L13.6 11l2.4 2c.23.23.35.51.35.79 0 .28-.12.56-.35.79z" fill="currentColor"/>
+                        </svg>
+                    </div>
+                    <h3 class="method-title">支付宝</h3>
+                    <div class="qrcode-container">
+                        <div class="qrcode-placeholder">
+                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <rect x="2" y="2" width="20" height="20" rx="2" stroke="currentColor" stroke-width="2"/>
+                                <path d="M6 12h12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                                <path d="M12 6v12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                                <path d="M9 9h6v6H9z" stroke="currentColor" stroke-width="2"/>
+                            </svg>
+                            <p>支付宝二维码</p>
+                        </div>
+                    </div>
+                    <p class="method-description">使用支付宝扫描二维码进行支付</p>
+                </div>
+            </div>
                 
                 <div class="custom-amount">
                     <h3>自定义金额</h3>
@@ -96,8 +115,10 @@
                         <button class="amount-btn" data-amount="100">100元</button>
                     </div>
                     <button class="btn btn-primary">
-                        <i class="fas fa-heart"></i> 确认支持
-                    </button>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="vertical-align: middle; margin-right: 4px;">
+                        <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" fill="currentColor"/>
+                    </svg> 确认支持
+                </button>
                 </div>
                 
                 <div class="donation-note">
@@ -176,7 +197,9 @@
                         <div class="faq-question">
                             <h3>番茄钟应用是免费的吗？</h3>
                             <button class="faq-toggle">
-                                <i class="fas fa-chevron-down"></i>
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M7 10l5 5 5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
                             </button>
                         </div>
                         <div class="faq-answer">
@@ -188,7 +211,9 @@
                         <div class="faq-question">
                             <h3>支持哪些操作系统？</h3>
                             <button class="faq-toggle">
-                                <i class="fas fa-chevron-down"></i>
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M7 10l5 5 5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
                             </button>
                         </div>
                         <div class="faq-answer">
@@ -200,7 +225,9 @@
                         <div class="faq-question">
                             <h3>如何更新应用到最新版本？</h3>
                             <button class="faq-toggle">
-                                <i class="fas fa-chevron-down"></i>
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M7 10l5 5 5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
                             </button>
                         </div>
                         <div class="faq-answer">
@@ -212,7 +239,9 @@
                         <div class="faq-question">
                             <h3>数据会保存在哪里？</h3>
                             <button class="faq-toggle">
-                                <i class="fas fa-chevron-down"></i>
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M7 10l5 5 5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
                             </button>
                         </div>
                         <div class="faq-answer">
@@ -224,7 +253,9 @@
                         <div class="faq-question">
                             <h3>如何导出统计数据？</h3>
                             <button class="faq-toggle">
-                                <i class="fas fa-chevron-down"></i>
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M7 10l5 5 5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
                             </button>
                         </div>
                         <div class="faq-answer">
@@ -236,7 +267,9 @@
                         <div class="faq-question">
                             <h3>遇到问题如何联系支持？</h3>
                             <button class="faq-toggle">
-                                <i class="fas fa-chevron-down"></i>
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M7 10l5 5 5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
                             </button>
                         </div>
                         <div class="faq-answer">
@@ -260,60 +293,69 @@
                 <p class="section-subtitle">如果您有其他问题或建议，欢迎联系我们</p>
                 
                 <div class="contact-methods">
-                    <div class="contact-method">
-                        <div class="contact-icon">
-                            <i class="fas fa-envelope"></i>
-                        </div>
-                        <h3 class="contact-title">电子邮件</h3>
-                        <p class="contact-info">support@pomodoro-app.com</p>
-                        <p class="contact-description">我们会在 24 小时内回复</p>
+                <div class="contact-method">
+                    <div class="contact-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm-.4 4.25l-7.07 4.16c-.39.23-.84.24-1.23.02L4.4 9.25c-.21-.13-.21-.42 0-.55l7.07-4.16c.39-.23.84-.24 1.23-.02l7.1 4.11c.21.13.21.42 0 .55zM5.5 17l3.1-4.63 1.1.65 3.1-4.63 7.9 4.63H5.5z" fill="currentColor"/>
+                        </svg>
                     </div>
-                    
-                    <div class="contact-method">
-                        <div class="contact-icon">
-                            <i class="fab fa-github"></i>
-                        </div>
-                        <h3 class="contact-title">GitHub</h3>
-                        <p class="contact-info">github.com/moon09300731/Tomato-Timer</p>
-                        <p class="contact-description">提交 Issue 或参与开发</p>
-                    </div>
-                    
-                    <div class="contact-method">
-                        <div class="contact-icon">
-                            <i class="fab fa-twitter"></i>
-                        </div>
-                        <h3 class="contact-title">社交媒体</h3>
-                        <p class="contact-info">@PomodoroApp</p>
-                        <p class="contact-description">关注我们获取最新动态</p>
-                    </div>
+                    <h3 class="contact-title">电子邮件</h3>
+                    <p class="contact-info">support@pomodoro-app.com</p>
+                    <p class="contact-description">我们会在 24 小时内回复</p>
                 </div>
                 
-                <div class="contact-form">
-                    <h3>发送消息</h3>
-                    <form>
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="name">姓名</label>
-                                <input type="text" id="name" placeholder="您的姓名">
-                            </div>
-                            <div class="form-group">
-                                <label for="email">邮箱</label>
-                                <input type="email" id="email" placeholder="您的邮箱地址">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="subject">主题</label>
-                            <input type="text" id="subject" placeholder="消息主题">
-                        </div>
-                        <div class="form-group">
-                            <label for="message">消息</label>
-                            <textarea id="message" rows="5" placeholder="请详细描述您的问题或建议"></textarea>
-                        </div>
-                        <button type="submit" class="btn btn-primary">
-                            <i class="fas fa-paper-plane"></i> 发送消息
-                        </button>
-                    </form>
+                <div class="contact-method">
+                    <div class="contact-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 0C5.373 0 0 5.373 0 12C0 17.301 3.438 21.8 8.205 23.389C8.805 23.493 9.027 23.131 9.027 22.812C9.027 22.533 9.017 21.784 9.013 20.708C5.67 21.338 2.423 19.452 2.423 15.477C2.423 13.96 3.053 12.738 3.941 11.882C3.807 11.611 3.548 10.67 3.891 9.686C2.338 9.317 0.974 8.17 0.974 6.628C0.974 5.747 1.381 4.99 1.992 4.416C5.426 7.744 9.98 7.563 12.988 5.346C13.297 5.032 13.786 4.83 14.29 4.83C14.794 4.83 15.283 5.032 15.59 5.346C18.597 7.563 23.154 7.744 26.588 4.416C27.199 4.99 27.606 5.747 27.606 6.628C27.606 8.17 26.242 9.317 24.689 9.686C25.032 10.67 24.773 11.611 24.639 11.882C25.527 12.738 26.157 13.96 26.157 15.477C26.157 19.465 22.91 21.349 19.565 20.723C19.191 21.842 18.716 22.605 18.681 22.812C18.681 23.131 18.903 23.493 19.503 23.389C24.27 21.799 27.707 17.301 27.707 12C27.707 5.373 22.334 0 15.707 0C13.544 0 11.393 0.757 9.68 2.072C8.618 1.345 7.346 0.85 5.962 0.85C4.578 0.85 3.306 1.345 2.244 2.072C0.531 0.757 -0.62 0 -2.783 0C-9.41 0 -14.783 5.373 -14.783 12C-14.783 17.301 -11.346 21.799 -6.579 23.389C-5.979 23.493 -5.757 23.131 -5.757 22.812C-5.757 22.533 -5.767 21.784 -5.771 20.708C-9.114 21.338 -12.361 19.452 -12.361 15.477C-12.361 13.96 -11.731 12.738 -10.843 11.882C-10.977 11.611 -11.236 10.67 -10.893 9.686C-12.446 9.317 -13.81 8.17 -13.81 6.628C-13.81 5.747 -13.403 4.99 -12.792 4.416C-9.358 7.744 -4.801 7.563 -1.805 5.346C-1.506 5.032 -1.007 4.83 -0.503 4.83C0 4.83 0.499 5.032 0.806 5.346C3.789 7.578 8.346 7.744 11.78 4.416C12.391 4.99 12.8 5.747 12.8 6.628C12.8 8.17 11.436 9.317 9.883 9.686C10.226 10.67 9.967 11.611 9.833 11.882C10.721 12.738 11.351 13.96 11.351 15.477C11.351 19.465 8.104 21.349 4.759 20.723C4.385 21.842 3.91 22.605 3.875 22.812C3.875 23.131 4.097 23.493 4.707 23.389C9.457 21.8 12.894 17.301 12.894 12C12.894 5.373 12.009 0 12 0Z" fill="currentColor"/>
+                        </svg>
+                    </div>
+                    <h3 class="contact-title">GitHub</h3>
+                    <p class="contact-info">github.com/moon09300731/Tomato-Timer</p>
+                    <p class="contact-description">提交 Issue 或参与开发</p>
                 </div>
+                
+                <div class="contact-method">
+                    <div class="contact-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M22.46 6C21.69 6.35 20.86 6.58 20 6.69C20.88 6.16 21.56 5.32 21.88 4.31C21.05 4.81 20.13 5.16 19.16 5.36C18.37 4.5 17.26 4 16 4C13.65 4 11.73 5.92 11.73 8.29C11.73 8.63 11.77 8.96 11.84 9.27C8.28 9.09 5.11 7.38 3 4.79C2.63 5.42 2.42 6.16 2.42 6.94C2.42 8.43 3.17 9.75 4.33 10.5C3.62 10.5 2.96 10.3 2.38 10C2.38 10 2.38 10 2.38 10.03C2.38 12.11 3.86 13.85 5.82 14.24C5.46 14.34 5.08 14.39 4.69 14.39C4.42 14.39 4.15 14.36 3.89 14.31C4.43 16 6 17.26 7.89 17.29C6.43 18.45 4.58 19.13 2.56 19.13C2.22 19.13 1.88 19.11 1.54 19.07C3.44 20.29 5.7 21 8.12 21C16 21 20.33 14.46 20.33 8.79C20.33 8.6 20.33 8.42 20.32 8.23C21.16 7.63 21.88 6.87 22.46 6Z" fill="currentColor"/>
+                        </svg>
+                    </div>
+                    <h3 class="contact-title">社交媒体</h3>
+                    <p class="contact-info">@PomodoroApp</p>
+                    <p class="contact-description">关注我们获取最新动态</p>
+                </div>
+            </div>
+            
+            <div class="contact-form">
+                <h3>发送消息</h3>
+                <form>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="name">姓名</label>
+                            <input type="text" id="name" placeholder="您的姓名">
+                        </div>
+                        <div class="form-group">
+                            <label for="email">邮箱</label>
+                            <input type="email" id="email" placeholder="您的邮箱地址">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="subject">主题</label>
+                        <input type="text" id="subject" placeholder="消息主题">
+                    </div>
+                    <div class="form-group">
+                        <label for="message">消息</label>
+                        <textarea id="message" rows="5" placeholder="请详细描述您的问题或建议"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="vertical-align: middle; margin-right: 4px;">
+                            <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z" fill="currentColor"/>
+                            <path d="M0 0h24v24H0z" fill="none"/>
+                        </svg> 发送消息
+                    </button>
+                </form>
+            </div>
             </div>
         </section>
     </main>
@@ -324,14 +366,25 @@
             <div class="footer-content">
                 <div class="footer-section">
                     <a href="../index.html" class="footer-logo">
-                        <span class="logo-icon">🍅</span>
-                        <span class="logo-text">番茄钟</span>
-                    </a>
+                    <span class="logo-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="12" cy="12" r="10" fill="#EF4444"/>
+                        <path d="M12 4C12 4 8 6 8 10C8 14 12 16 12 16C12 16 16 14 16 10C16 6 12 4 12 4Z" fill="#22C55E"/>
+                        <path d="M10 8C10 8 8 10 8 12C8 14 10 16 10 16" stroke="#F59E0B" stroke-width="1.5" stroke-linecap="round"/>
+                        <path d="M14 8C14 8 16 10 16 12C16 14 14 16 14 16" stroke="#F59E0B" stroke-width="1.5" stroke-linecap="round"/>
+                    </svg></span>
+                    <span class="logo-text">番茄钟</span>
+                </a>
                     <p class="footer-description">专业的番茄钟应用，帮助您提高工作效率，平衡工作与休息。</p>
                     <div class="social-links">
-                        <a href="#" class="social-link"><i class="fab fa-github"></i></a>
-                        <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
-                        <a href="#" class="social-link"><i class="fab fa-weibo"></i></a>
+                        <a href="#" class="social-link"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="vertical-align: middle;">
+                            <path d="M12 0C5.373 0 0 5.373 0 12C0 17.301 3.438 21.8 8.205 23.389C8.805 23.493 9.027 23.131 9.027 22.812C9.027 22.533 9.017 21.784 9.013 20.708C5.67 21.338 2.423 19.452 2.423 15.477C2.423 13.96 3.053 12.738 3.941 11.882C3.807 11.611 3.548 10.67 3.891 9.686C2.338 9.317 0.974 8.17 0.974 6.628C0.974 5.747 1.381 4.99 1.992 4.416C5.426 7.744 9.98 7.563 12.988 5.346C13.297 5.032 13.786 4.83 14.29 4.83C14.794 4.83 15.283 5.032 15.59 5.346C18.597 7.563 23.154 7.744 26.588 4.416C27.199 4.99 27.606 5.747 27.606 6.628C27.606 8.17 26.242 9.317 24.689 9.686C25.032 10.67 24.773 11.611 24.639 11.882C25.527 12.738 26.157 13.96 26.157 15.477C26.157 19.465 22.91 21.349 19.565 20.723C19.191 21.842 18.716 22.605 18.681 22.812C18.681 23.131 18.903 23.493 19.503 23.389C24.27 21.799 27.707 17.301 27.707 12C27.707 5.373 22.334 0 15.707 0C13.544 0 11.393 0.757 9.68 2.072C8.618 1.345 7.346 0.85 5.962 0.85C4.578 0.85 3.306 1.345 2.244 2.072C0.531 0.757 -0.62 0 -2.783 0C-9.41 0 -14.783 5.373 -14.783 12C-14.783 17.301 -11.346 21.799 -6.579 23.389C-5.979 23.493 -5.757 23.131 -5.757 22.812C-5.757 22.533 -5.767 21.784 -5.771 20.708C-9.114 21.338 -12.361 19.452 -12.361 15.477C-12.361 13.96 -11.731 12.738 -10.843 11.882C-10.977 11.611 -11.236 10.67 -10.893 9.686C-12.446 9.317 -13.81 8.17 -13.81 6.628C-13.81 5.747 -13.403 4.99 -12.792 4.416C-9.358 7.744 -4.801 7.563 -1.805 5.346C-1.506 5.032 -1.007 4.83 -0.503 4.83C0 4.83 0.499 5.032 0.806 5.346C3.789 7.578 8.346 7.744 11.78 4.416C12.391 4.99 12.8 5.747 12.8 6.628C12.8 8.17 11.436 9.317 9.883 9.686C10.226 10.67 9.967 11.611 9.833 11.882C10.721 12.738 11.351 13.96 11.351 15.477C11.351 19.465 8.104 21.349 4.759 20.723C4.385 21.842 3.91 22.605 3.875 22.812C3.875 23.131 4.097 23.493 4.707 23.389C9.457 21.8 12.894 17.301 12.894 12C12.894 5.373 12.009 0 12 0Z" fill="currentColor"/>
+                        </svg></a>
+                        <a href="#" class="social-link"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="vertical-align: middle;">
+                            <path d="M22.46 6C21.69 6.35 20.86 6.58 20 6.69C20.88 6.16 21.56 5.32 21.88 4.31C21.05 4.81 20.13 5.16 19.16 5.36C18.37 4.5 17.26 4 16 4C13.65 4 11.73 5.92 11.73 8.29C11.73 8.63 11.77 8.96 11.84 9.27C8.28 9.09 5.11 7.38 3 4.79C2.63 5.42 2.42 6.16 2.42 6.94C2.42 8.43 3.17 9.75 4.33 10.5C3.62 10.5 2.96 10.3 2.38 10C2.38 10 2.38 10 2.38 10.03C2.38 12.11 3.86 13.85 5.82 14.24C5.46 14.34 5.08 14.39 4.69 14.39C4.42 14.39 4.15 14.36 3.89 14.31C4.43 16 6 17.26 7.89 17.29C6.43 18.45 4.58 19.13 2.56 19.13C2.22 19.13 1.88 19.11 1.54 19.07C3.44 20.29 5.7 21 8.12 21C16 21 20.33 14.46 20.33 8.79C20.33 8.6 20.33 8.42 20.32 8.23C21.16 7.63 21.88 6.87 22.46 6Z" fill="currentColor"/>
+                        </svg></a>
+                        <a href="#" class="social-link"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="vertical-align: middle;">
+                            <path d="M19.512 9.807c.566-.547 1.323-.859 2.152-.859a2.403 2.403 0 012.398 2.4 2.402 2.402 0 01-2.4 2.4c-.829 0-1.585-.312-2.152-.859-.515.328-.907.614-1.064.859h-2.772v9.333c0 2.707-2.07 4.9-4.611 4.9h-7.455c-2.54 0-4.611-2.193-4.611-4.9V12.667h-2.585a4.704 4.704 0 01-1.064-.859c-.566.547-1.322.859-2.152.859A2.403 2.403 0 010 13.548c0-1.329 1.071-2.4 2.4-2.4.829 0 1.585.312 2.152.859.515-.328.907-.614 1.064-.859h2.585v-7.333c0-2.707 2.071-4.9 4.611-4.9h7.455c2.54 0 4.611 2.193 4.611 4.9v7.333h2.772a4.704 4.704 0 011.064-.859z" fill="currentColor"/>
+                        </svg></a>
                     </div>
                 </div>
                 <div class="footer-section">

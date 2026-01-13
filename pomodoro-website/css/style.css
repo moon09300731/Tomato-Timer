@@ -186,7 +186,7 @@ body {
     text-align: center;
 }
 
-/* 按钮样式 */
+/* 按钮样式 - 修复：添加position: relative和overflow: hidden确保涟漪动画正确定位 */
 .btn {
     display: inline-flex;
     align-items: center;
@@ -204,6 +204,8 @@ body {
     transition: all var(--transition-base);
     white-space: nowrap;
     user-select: none;
+    position: relative;
+    overflow: hidden;
 }
 
 .btn:hover {
