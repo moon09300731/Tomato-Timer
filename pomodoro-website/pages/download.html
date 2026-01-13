@@ -18,7 +18,12 @@
     <nav class="navbar">
         <div class="container">
             <a href="../index.html" class="logo">
-                <span class="logo-icon">🍅</span>
+                <span class="logo-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="12" cy="12" r="10" fill="#EF4444"/>
+                    <path d="M12 4C12 4 8 6 8 10C8 14 12 16 12 16C12 16 16 14 16 10C16 6 12 4 12 4Z" fill="#22C55E"/>
+                    <path d="M10 8C10 8 8 10 8 12C8 14 10 16 10 16" stroke="#F59E0B" stroke-width="1.5" stroke-linecap="round"/>
+                    <path d="M14 8C14 8 16 10 16 12C16 14 14 16 14 16" stroke="#F59E0B" stroke-width="1.5" stroke-linecap="round"/>
+                </svg></span>
                 <span class="logo-text">番茄钟</span>
             </a>
             <button class="nav-toggle" aria-label="菜单">
@@ -64,15 +69,15 @@
                                 <div class="stat-label">本周下载</div>
                             </div>
                             <div class="stat">
-                                <div class="stat-value">15.2 MB</div>
+                                <div class="stat-value">89.8 MB</div>
                                 <div class="stat-label">文件大小</div>
                             </div>
                             <div class="stat">
-                                <div class="stat-value">2024-01-08</div>
+                                <div class="stat-value">2026-01-09</div>
                                 <div class="stat-label">发布日期</div>
                             </div>
                             <div class="stat">
-                                <div class="stat-value">2024-01-08</div>
+                                <div class="stat-value">2026-01-09</div>
                                 <div class="stat-label">最近更新</div>
                             </div>
                         </div>
@@ -111,10 +116,10 @@
                     </div>
                     <div class="download-action">
                         <div class="download-button">
-                            <a href="https://github.com/moon09300731/Tomato-Timer/releases/download/v1.0.0/Tomato-Timer.dmg" class="btn btn-large btn-primary">
+                            <a href="/downloads/v1.0.0/TomatoTimer-v1.0.0.dmg" class="btn btn-large btn-primary" id="main-download-btn" data-version="1.0.0">
                                 <i class="fas fa-download"></i>
                                 <span>下载 macOS 版</span>
-                                <small>v1.0.0 (15.2 MB)</small>
+                                <small>v1.0.0 (89.8 MB)</small>
                             </a>
                             <p class="download-hint">支持 macOS 11.0+</p>
                         </div>
@@ -140,99 +145,6 @@
             </div>
         </section>
 
-        <!-- 历史版本 -->
-        <section class="version-history">
-            <div class="container">
-                <h2 class="section-title">历史版本</h2>
-                <p class="section-subtitle">如果您需要旧版本，可以在这里找到</p>
-                
-                <div class="version-grid">
-                    <div class="version-card">
-                        <div class="version-header">
-                            <h3 class="version-title">v1.0.0</h3>
-                            <span class="version-badge current">当前版本</span>
-                        </div>
-                        <div class="version-info">
-                            <div class="version-date">2024-01-08</div>
-                            <div class="version-size">15.2 MB</div>
-                        </div>
-                        <ul class="version-changes">
-                            <li>初始发布版本</li>
-                            <li>包含所有核心功能</li>
-                            <li>修复已知问题</li>
-                        </ul>
-                        <div class="version-actions">
-                            <a href="#" class="btn btn-outline">下载</a>
-                            <a href="changelog.html#v1.0.0" class="btn btn-text">更新日志</a>
-                        </div>
-                    </div>
-                    
-                    <div class="version-card">
-                        <div class="version-header">
-                            <h3 class="version-title">v0.9.0</h3>
-                            <span class="version-badge beta">测试版</span>
-                        </div>
-                        <div class="version-info">
-                            <div class="version-date">2023-12-20</div>
-                            <div class="version-size">14.8 MB</div>
-                        </div>
-                        <ul class="version-changes">
-                            <li>新增深色主题</li>
-                            <li>改进统计图表</li>
-                            <li>优化性能</li>
-                        </ul>
-                        <div class="version-actions">
-                            <a href="#" class="btn btn-outline">下载</a>
-                            <a href="changelog.html#v0.9.0" class="btn btn-text">更新日志</a>
-                        </div>
-                    </div>
-                    
-                    <div class="version-card">
-                        <div class="version-header">
-                            <h3 class="version-title">v0.8.0</h3>
-                            <span class="version-badge beta">测试版</span>
-                        </div>
-                        <div class="version-info">
-                            <div class="version-date">2023-11-15</div>
-                            <div class="version-size">14.5 MB</div>
-                        </div>
-                        <ul class="version-changes">
-                            <li>添加通知功能</li>
-                            <li>改进设置界面</li>
-                            <li>修复若干bug</li>
-                        </ul>
-                        <div class="version-actions">
-                            <a href="#" class="btn btn-outline">下载</a>
-                            <a href="changelog.html#v0.8.0" class="btn btn-text">更新日志</a>
-                        </div>
-                    </div>
-                    
-                    <div class="version-card">
-                        <div class="version-header">
-                            <h3 class="version-title">v0.7.0</h3>
-                            <span class="version-badge alpha">早期版本</span>
-                        </div>
-                        <div class="version-info">
-                            <div class="version-date">2023-10-10</div>
-                            <div class="version-size">13.9 MB</div>
-                        </div>
-                        <ul class="version-changes">
-                            <li>基础计时功能</li>
-                            <li>简单统计</li>
-                            <li>基本设置</li>
-                        </ul>
-                        <div class="version-actions">
-                            <a href="#" class="btn btn-outline">下载</a>
-                            <a href="changelog.html#v0.7.0" class="btn btn-text">更新日志</a>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="version-note">
-                    <p><strong>注意：</strong>历史版本可能包含已知问题或不完整的功能。建议使用最新版本以获得最佳体验。</p>
-                </div>
-            </div>
-        </section>
 
         <!-- 安装指南 -->
         <section class="installation-guide">
@@ -332,7 +244,7 @@
                 </div>
                 
                 <div class="stats-note">
-                    <p>统计数据每 24 小时更新一次。最后更新时间：2024-01-08 14:30 UTC</p>
+                    <p>统计数据每 24 小时更新一次。最后更新时间：2026-01-09 14:30 UTC</p>
                 </div>
             </div>
         </section>
@@ -344,7 +256,12 @@
             <div class="footer-content">
                 <div class="footer-section">
                     <a href="../index.html" class="footer-logo">
-                        <span class="logo-icon">🍅</span>
+                        <span class="logo-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="12" cy="12" r="10" fill="#EF4444"/>
+                            <path d="M12 4C12 4 8 6 8 10C8 14 12 16 12 16C12 16 16 14 16 10C16 6 12 4 12 4Z" fill="#22C55E"/>
+                            <path d="M10 8C10 8 8 10 8 12C8 14 10 16 10 16" stroke="#F59E0B" stroke-width="1.5" stroke-linecap="round"/>
+                            <path d="M14 8C14 8 16 10 16 12C16 14 14 16 14 16" stroke="#F59E0B" stroke-width="1.5" stroke-linecap="round"/>
+                        </svg></span>
                         <span class="logo-text">番茄钟</span>
                     </a>
                     <p class="footer-description">专业的番茄钟应用，帮助您提高工作效率，平衡工作与休息。</p>
@@ -381,7 +298,7 @@
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>&copy; 2024 番茄钟应用。保留所有权利。</p>
+                <p>&copy; 2026 番茄钟应用。保留所有权利。</p>
                 <p>专注工作，定时休息</p>
             </div>
         </div>
@@ -390,6 +307,7 @@
     <!-- JavaScript文件 -->
     <script src="../js/main.js"></script>
     <script src="../js/navigation.js"></script>
+    <script src="../js/download.js"></script>
     <script>
         // 下载页面特定脚本
         document.addEventListener('DOMContentLoaded', function() {

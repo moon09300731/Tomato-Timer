@@ -289,7 +289,7 @@ sudo chmod -R 755 /var/www/pomodoro-website
 ### 版本回滚
 ```bash
 # 从备份恢复
-tar -xzf /backup/pomodoro-website/website_20240108_120000.tar.gz -C /
+tar -xzf /backup/pomodoro-website/website_20260109_120000.tar.gz -C /
 sudo systemctl restart nginx
 ```
 
@@ -301,5 +301,5 @@ sudo systemctl restart nginx
 
 ---
 
-**最后更新**: 2024-01-08  
+**最后更新**: 2026-01-09  
 **版本**: v1.0.0

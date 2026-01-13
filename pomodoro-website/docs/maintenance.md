@@ -60,7 +60,7 @@ const screenshots = [
         <span class="version-badge current">当前版本</span>
     </div>
     <div class="version-info">
-        <div class="version-date">2024-02-01</div>
+        <div class="version-date">2026-02-01</div>
         <div class="version-size">16.5 MB</div>
     </div>
     <ul class="version-changes">
@@ -115,7 +115,7 @@ const screenshots = [
         <div class="supporter-name">新支持者</div>
         <div class="supporter-amount">¥100</div>
     </div>
-    <div class="supporter-date">2024-01-09</div>
+    <div class="supporter-date">2026-01-09</div>
 </div>
 ```
 
@@ -390,6 +390,6 @@ window.addEventListener('unhandledrejection', function(event) {
 
 ---
 
-**最后更新**: 2024-01-08  
+**最后更新**: 2026-01-09  
 **版本**: v1.0.0  
 **维护团队**: 番茄钟开发团队

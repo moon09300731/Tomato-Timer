@@ -2,49 +2,49 @@
 /* 设计系统：多巴胺色系，以红色/橙色系为主色调 */
 
 :root {
-    /* 主色调 - 多巴胺红色系 */
-    --color-primary: #ff6b6b;
-    --color-primary-light: #ff8787;
-    --color-primary-dark: #ff5252;
-    --color-primary-transparent: rgba(255, 107, 107, 0.1);
+    /* 主色调 - 生产力蓝色系（浅色主题） */
+    --color-primary: #3B82F6;
+    --color-primary-light: #60A5FA;
+    --color-primary-dark: #2563EB;
+    --color-primary-transparent: rgba(59, 130, 246, 0.1);
     
-    /* 辅助色 - 橙色系 */
-    --color-secondary: #ffa94d;
-    --color-secondary-light: #ffc078;
-    --color-secondary-dark: #ff922b;
+    /* 辅助色 - 橙色系（用于CTA） */
+    --color-secondary: #F97316;
+    --color-secondary-light: #FB923C;
+    --color-secondary-dark: #EA580C;
     
     /* 成功色 - 绿色系 */
-    --color-success: #51cf66;
-    --color-success-light: #69db7c;
-    --color-success-dark: #40c057;
+    --color-success: #10B981;
+    --color-success-light: #34D399;
+    --color-success-dark: #059669;
     
     /* 信息色 - 蓝色系 */
-    --color-info: #339af0;
-    --color-info-light: #4dabf7;
-    --color-info-dark: #228be6;
+    --color-info: #3B82F6;
+    --color-info-light: #60A5FA;
+    --color-info-dark: #2563EB;
     
     /* 文本颜色 */
-    --color-text-primary: #1d1d1f;
-    --color-text-secondary: #8e8e93;
-    --color-text-tertiary: #aeaeb2;
-    --color-text-on-primary: #ffffff;
+    --color-text-primary: #1E293B;
+    --color-text-secondary: #64748B;
+    --color-text-tertiary: #94A3B8;
+    --color-text-on-primary: #FFFFFF;
     
     /* 背景颜色 */
-    --color-bg-primary: #ffffff;
-    --color-bg-secondary: #f5f5f7;
-    --color-bg-tertiary: #e5e5e7;
-    --color-bg-card: #ffffff;
+    --color-bg-primary: #F8FAFC;
+    --color-bg-secondary: #F1F5F9;
+    --color-bg-tertiary: #E2E8F0;
+    --color-bg-card: #FFFFFF;
     
     /* 边框颜色 */
-    --color-border: #e5e5e7;
-    --color-border-light: #f0f0f0;
-    --color-border-dark: #d1d1d6;
+    --color-border: #E2E8F0;
+    --color-border-light: #F1F5F9;
+    --color-border-dark: #CBD5E1;
     
-    /* 阴影 */
-    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
-    --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
+    /* 阴影 - Soft UI Evolution风格 */
+    --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.08);
+    --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.10);
     --shadow-lg: 0 10px 30px rgba(0, 0, 0, 0.12);
-    --shadow-xl: 0 20px 40px rgba(0, 0, 0, 0.15);
+    --shadow-xl: 0 20px 40px rgba(0, 0, 0, 0.14);
     
     /* 圆角 */
     --radius-sm: 6px;
@@ -84,9 +84,9 @@
     --font-weight-bold: 700;
     
     /* 过渡效果 */
-    --transition-fast: 150ms ease;
-    --transition-base: 300ms ease;
-    --transition-slow: 500ms ease;
+    --transition-fast: 150ms ease-out;
+    --transition-base: 300ms ease-out;
+    --transition-slow: 500ms ease-out;
     
     /* 容器宽度 */
     --container-sm: 640px;
@@ -99,23 +99,27 @@
 /* 暗色主题变量 */
 @media (prefers-color-scheme: dark) {
     :root {
-        --color-text-primary: #ffffff;
-        --color-text-secondary: #e5e5e7;
-        --color-text-tertiary: #aeaeb2;
+        /* 文本颜色 - 浅色文本在深色背景上 */
+        --color-text-primary: #F1F5F9;
+        --color-text-secondary: #CBD5E1;
+        --color-text-tertiary: #94A3B8;
         
-        --color-bg-primary: #1d1d1f;
-        --color-bg-secondary: #2e2e2e;
-        --color-bg-tertiary: #3a3a3c;
-        --color-bg-card: #2e2e2e;
+        /* 背景颜色 - 深蓝色/灰色背景 */
+        --color-bg-primary: #0F172A;
+        --color-bg-secondary: #1E293B;
+        --color-bg-tertiary: #334155;
+        --color-bg-card: #1E293B;
         
-        --color-border: #3a3a3c;
-        --color-border-light: #424245;
-        --color-border-dark: #2e2e2e;
+        /* 边框颜色 */
+        --color-border: #334155;
+        --color-border-light: #475569;
+        --color-border-dark: #1E293B;
         
-        --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
-        --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.25);
-        --shadow-lg: 0 10px 30px rgba(0, 0, 0, 0.3);
-        --shadow-xl: 0 20px 40px rgba(0, 0, 0, 0.35);
+        /* 阴影 - 深色模式下更深阴影 */
+        --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.4);
+        --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.35);
+        --shadow-lg: 0 10px 30px rgba(0, 0, 0, 0.4);
+        --shadow-xl: 0 20px 40px rgba(0, 0, 0, 0.45);
     }
 }
 
@@ -124,6 +128,34 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+}
+
+/* 交互元素光标指针与悬停反馈 */
+a, button, .btn, .nav-link, .card, .feature-card, .pricing-card, .testimonial-card,
+.download-button, .support-button, .back-to-top, .nav-toggle, input[type="submit"],
+input[type="button"], [role="button"], [onclick] {
+    cursor: pointer;
+    transition: all var(--transition-fast);
+}
+
+/* 基础悬停效果 */
+a:hover, .nav-link:hover, .btn:hover, button:hover {
+    opacity: 0.85;
+}
+
+/* 卡片悬停效果 */
+.card:hover, .feature-card:hover, .pricing-card:hover, .testimonial-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+}
+
+/* 按钮悬停效果 */
+.btn-primary:hover {
+    background-color: var(--color-primary-dark);
+}
+
+.btn-secondary:hover {
+    background-color: var(--color-secondary-dark);
 }
 
 html {
@@ -139,6 +171,7 @@ body {
     color: var(--color-text-primary);
     background-color: var(--color-bg-primary);
     overflow-x: hidden;
+    padding-top: 80px; /* 为固定导航栏留出空间 */
 }
 
 .container {
@@ -221,16 +254,28 @@ body {
     border-radius: var(--radius-lg);
 }
 
-/* 导航栏样式 */
+/* 导航栏样式 - 浮动导航栏 */
 .navbar {
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
+    top: 1rem;
+    left: 1rem;
+    right: 1rem;
+    width: auto;
     z-index: 1000;
-    background-color: var(--color-bg-primary);
-    box-shadow: var(--shadow-sm);
+    background-color: rgba(248, 250, 252, 0.9);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid var(--color-border);
+    box-shadow: var(--shadow-md);
+    border-radius: var(--radius-lg);
     transition: all var(--transition-base);
+}
+
+@media (prefers-color-scheme: dark) {
+    .navbar {
+        background-color: rgba(15, 23, 42, 0.9);
+        border-color: var(--color-border);
+    }
 }
 
 .navbar .container {
